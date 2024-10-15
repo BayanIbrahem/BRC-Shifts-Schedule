@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">BRC shift-schedule</string>
+
+    <string name="group_name_a">Work-Group A</string>
+    <string name="group_name_b">Work-Group B</string>
+    <string name="group_name_c">Work-Group C</string>
+    <string name="group_name_d">Work-Group D</string>
+
+    <string name="shift_morning">Morning</string>
+    <string name="shift_evening">Evening</string>
+    <string name="shift_off1">Day-off (1)</string>
+    <string name="shift_off2">Day-off (2)</string>
+    <string name="date">"date: "</string>
+    <string name="today">today</string>
+    <string name="previous_day">prev</string>
+    <string name="next_day">next</string>
+    <string name="signeture">%1$s v.%2$s - bayan</string>
+    <string name="date_input_hint">Start with day then month then year, for day and month write 2 digits like 01 or 21</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="invalid_date">Invalid date</string>
+    <string name="shift_work">Work</string>
+    <string name="shift_rest">Rest</string>
+    <string name="deprecated_schedule_hint">This text is deprecated and last valid date for it was %1$s</string>
+    <string name="active_schedule_hint">This schedule is the newest schedule and started being used from %1$s</string>
+</resources>
