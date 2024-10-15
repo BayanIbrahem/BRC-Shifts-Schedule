@@ -20,7 +20,11 @@
     <string name="ok">تأكيد</string>
     <string name="cancel">إلغاء</string>
     <string name="invalid_date">تاريخ غير صالح</string>
-    <string name="shift_work">Work</string>
-    <string name="shift_rest">Rest</string>
-    <string name="deprecated_schedule_hint">This text is deprecated and last valid date for it was %1$s</string>
+    <string name="shift_work">عمل</string>
+    <string name="shift_rest">استراحة</string>
+    <string name="deprecated_schedule_hint">هذا الجدول تم الاستغناء عنه بعد تاريخ %1$s</string>
+    <string name="active_schedule_hint">هذا هو جدول الدوام الأحدث والذي تم بدء العمل به بتاريخ %1$s</string>
+    <string name="shift_rest1">استراحة 1</string>
+    <string name="shift_rest2">استراحة 2</string>
+    <string name="shift_rest3">استراحة 3</string>
 </resources>

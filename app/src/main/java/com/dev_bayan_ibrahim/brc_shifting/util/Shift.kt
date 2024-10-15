@@ -48,9 +48,9 @@ enum class Shift3(
 ) : Shift {
     // TODO, set resources
     WORK(R.string.shift_work),
-    REST1(R.string.shift_rest),
-    REST2(R.string.shift_rest),
-    REST3(R.string.shift_rest);
+    REST1(R.string.shift_rest1),
+    REST2(R.string.shift_rest2),
+    REST3(R.string.shift_rest3);
 
     override val index = ordinal
 }

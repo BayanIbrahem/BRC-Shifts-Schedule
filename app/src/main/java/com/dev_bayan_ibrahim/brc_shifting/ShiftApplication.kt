@@ -85,7 +85,9 @@ fun ShiftApplication(
             Hint(
                 schedule = uiState.schedule,
                 isDeprecated = uiState.isScheduleDeprecated,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
             )
             Row(
                 modifier = modifier
@@ -213,7 +215,7 @@ private fun Hint(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = if (isDeprecated) Icons.Default.Info else Icons.Default.Warning,
+                imageVector = if (isDeprecated) Icons.Default.Warning else Icons.Default.Info,
                 contentDescription = null,
                 Modifier.size(48.dp)
             )

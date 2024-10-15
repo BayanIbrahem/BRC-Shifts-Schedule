@@ -21,6 +21,9 @@
     <string name="invalid_date">Invalid date</string>
     <string name="shift_work">Work</string>
     <string name="shift_rest">Rest</string>
-    <string name="deprecated_schedule_hint">This text is deprecated and last valid date for it was %1$s</string>
+    <string name="deprecated_schedule_hint">This Schedule is deprecated after %1$s</string>
     <string name="active_schedule_hint">This schedule is the newest schedule and started being used from %1$s</string>
+    <string name="shift_rest1">Rest 1</string>
+    <string name="shift_rest2">Rest 2</string>
+    <string name="shift_rest3">Rest 3</string>
 </resources>

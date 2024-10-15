@@ -21,5 +21,5 @@ object ScheduleManager3 : ScheduleManager<Shift3> {
     override fun getShiftOfCycleIndex(
         index: Int,
         group: WorkGroup,
-    ): Shift3 = Shift3.entries[(index + group.ordinal) % Shift2.entries.count()]
+    ): Shift3 = Shift3.entries[index % Shift3.entries.count()]
 }

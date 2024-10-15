@@ -23,11 +23,3 @@ object ScheduleManager2 : ScheduleManager<Shift2> {
         group: WorkGroup,
     ): Shift2 = Shift2.entries[(index) % Shift2.entries.count()]
 }
-
-/**
- G          S
- 0          2
- 1          3
- 2          0
- 3          1
- */
