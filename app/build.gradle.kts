@@ -3,16 +3,23 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.google.dagger.hilt)
+    alias(libs.plugins.google.ksp)
+    alias(libs.plugins.androidx.room)
 }
 
+room {
+    schemaDirectory("$projectDir/schemas")
+}
 android {
     namespace = "com.dev_bayan_ibrahim.brc_shifting"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.dev_bayan_ibrahim.brc_shifting"
         minSdk = 21
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 2
         versionName = "0.2.0"
         multiDexEnabled = true
@@ -45,12 +52,15 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = libs.versions.kotlinComposeCompiler.get()
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+    lint {
+        checkReleaseBuilds = false
     }
 }
 
@@ -64,14 +74,32 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.androidx.material3.windowSizeClass)
     implementation(libs.kotlin.datetime)
+    implementation(libs.kotlinx.serilalization.json)
+    implementation(libs.ktor.core)
+    implementation(libs.ktor.cio)
+//    implementation(libs.ktor.engine.android)
+//    implementation(libs.ktor.logging)
+////    implementation(libs.ktor.auth)
+//    implementation(libs.ktor.content.negotiation)
+//    implementation(libs.ktor.serialization)
+//
+    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.google.dagger.hilt.android)
+    implementation(libs.google.dagger.hilt.core)
+    ksp(libs.google.dagger.hilt.ext.compiler)
+    ksp(libs.google.dagger.hilt.compiler)
+
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+//    implementation(libs.androidx.room.paging)
+    ksp(libs.androidx.room.compiler)
+    testImplementation(libs.androidx.room.testing)
+
     coreLibraryDesugaring(libs.core.desugaring)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
     androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 }

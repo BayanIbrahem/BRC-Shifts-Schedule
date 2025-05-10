@@ -6,6 +6,20 @@
     <string name="group_name_b">الوردية ب</string>
     <string name="group_name_c">الوردية ج</string>
     <string name="group_name_d">الوردية د</string>
+    <string name="group_name_standard">صباحي</string>
+
+    <string name="group_shortcut_a">أ</string>
+    <string name="group_shortcut_b">ب</string>
+    <string name="group_shortcut_c">ج</string>
+    <string name="group_shortcut_d">د</string>
+    <string name="group_shortcut_standard">ص</string>
+
+    <string name="employee_sort_name">ترتيب حسب الاسم</string>
+    <string name="employee_sort_number">ترتيب حسب الرقم</string>
+    <string name="employee_sort_group">ترتيب حسب الوردية</string>
+    <string name="employee_sort_create">ترتيب حسب الإنشاء</string>
+    <string name="employee_sort_update">ترتيب حسب التعديل</string>
+    <string name="employee_toggle_sort">عكس الترتيب</string>
 
     <string name="shift_morning">صباحي</string>
     <string name="shift_evening">بعد الظهر</string>
@@ -27,4 +41,6 @@
     <string name="shift_rest1">استراحة 1</string>
     <string name="shift_rest2">استراحة 2</string>
     <string name="shift_rest3">استراحة 3</string>
+
+    <string name="employees">الموظفين</string>
 </resources>

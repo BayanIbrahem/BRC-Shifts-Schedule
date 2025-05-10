@@ -1,17 +1,26 @@
 [versions]
-agp = "8.6.0"
-kotlin = "2.0.20"
-core-ktx = "1.13.1"
+agp = "8.8.2"
+kotlin = "2.1.0"
+core-ktx = "1.15.0"
 junit = "4.13.2"
+kotlinComposeCompiler = "1.5.15"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.6.1"
 lifecycle-runtime-ktx = "2.8.6"
-activity-compose = "1.9.2"
-compose-bom = "2024.09.02"
-lifecycle-viewmodel-compose = "2.6.2"
-material3-windowSizeClass = "1.1.2"
+activity-compose = "1.10.0"
+compose-bom = "2025.02.00"
+lifecycle-viewmodel-compose = "2.8.7"
 kotlin-datetime = "0.6.1"
-desugaring = "2.1.2"
+desugaring = "2.1.5"
+kotlinxSerializationJson = "1.8.0"
+ktor_version = "3.1.1"
+hilt = "2.52"
+hiltExt = "1.2.0"
+androidxNavigation = "2.8.6"
+androidxHiltNavigationCompose = "1.2.0"
+ksp = "2.1.0-1.0.29"
+room = "2.6.1"
+material3WindowSizeClassAndroid = "1.3.2"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -29,12 +38,40 @@ ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-lifecycle-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycle-viewmodel-compose" }
-androidx-material3-windowSizeClass = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "material3-windowSizeClass" }
-kotlin-datetime = {group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlin-datetime"}
-core-desugaring = {group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring"}
+kotlin-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlin-datetime" }
+core-desugaring = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugaring" }
+kotlinx-serilalization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+# ktor
+ktor-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor_version" }
+ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor_version" }
+
+# navigation
+androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
+androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
+
+# hilt
+google-dagger-hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+google-dagger-hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
+google-dagger-hilt-core = { group = "com.google.dagger", name = "hilt-core", version.ref = "hilt" }
+google-dagger-hilt-ext-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "hiltExt" }
+
+#ksp
+ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devtools.ksp.gradle.plugin", version.ref = "ksp" }
+
+#room
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-testing = { group = "androidx.room", name = "room-testing", version.ref = "room" }
+androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
+room-gradlePlugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "room" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+google-dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+androidx-room = { id = "androidx.room", version.ref = "room" }
 
