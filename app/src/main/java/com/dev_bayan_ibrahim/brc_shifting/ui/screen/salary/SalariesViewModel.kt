@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.salary.EmployeeSalary
 import com.dev_bayan_ibrahim.brc_shifting.domain.repo.SalaryRepo
 import com.dev_bayan_ibrahim.brc_shifting.ui.navigate.BRCDestination
-import com.dev_bayan_ibrahim.brc_shifting.ui.screen.salary.action.SalaryLogicActions
-import com.dev_bayan_ibrahim.brc_shifting.ui.screen.salary.state.SalaryUiState
+import com.dev_bayan_ibrahim.brc_shifting.ui.screen.salary.action.SalariesLogicActions
+import com.dev_bayan_ibrahim.brc_shifting.ui.screen.salary.state.SalariesUiState
 import com.dev_bayan_ibrahim.brc_shifting.util.now
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,11 +28,11 @@ import javax.inject.Inject
 import kotlin.time.Duration.Companion.minutes
 
 @HiltViewModel
-class SalaryViewModel @Inject constructor(
+class SalariesViewModel @Inject constructor(
     private val repo: SalaryRepo,
 ) : ViewModel() {
     private val _employeeNumberFlow: MutableStateFlow<Int?> = MutableStateFlow(null)
-    private val _uiState: MutableStateFlow<SalaryUiState> = MutableStateFlow(SalaryUiState())
+    private val _uiState: MutableStateFlow<SalariesUiState> = MutableStateFlow(SalariesUiState())
     val uiState = _uiState.asStateFlow()
 
     val thisMonthFlow: StateFlow<LocalDate?> = flow {
@@ -61,16 +61,16 @@ class SalaryViewModel @Inject constructor(
         viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList()
     )
 
-    fun initSalaries(args: BRCDestination.Salary) {
+    fun initSalaries(args: BRCDestination.Salaries) {
         val number = args.employeeNumber
         _employeeNumberFlow.value = number
         viewModelScope.launch {
             val employee = repo.getEmployee(number)
-            _uiState.value = SalaryUiState(employee = employee)
+            _uiState.value = SalariesUiState(employee = employee)
         }
     }
 
-    fun buildLogicActions() = SalaryLogicActions(
+    fun buildLogicActions() = SalariesLogicActions(
         onFetchThisMonth = {
             fetchSalary(true)
         },
@@ -93,6 +93,11 @@ class SalaryViewModel @Inject constructor(
         onToggleOrder = { asc ->
             _uiState.update {
                 it.copy(acsOrder = asc)
+            }
+        },
+        onToggleVerticalView = { vertical ->
+            _uiState.update {
+                it.copy(verticalView = vertical)
             }
         }
     )

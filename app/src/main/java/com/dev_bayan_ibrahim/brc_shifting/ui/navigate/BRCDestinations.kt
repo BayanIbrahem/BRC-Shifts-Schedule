@@ -5,7 +5,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import com.dev_bayan_ibrahim.brc_shifting.R
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 import kotlin.reflect.KClass
 
 private val destinationsList = mutableListOf<KClass<out BRCDestination>>()
@@ -40,7 +39,7 @@ sealed class BRCDestination {
     }
 
     @Serializable
-    data class Salary(
+    data class Salaries(
         val employeeNumber: Int,
     ) : BRCDestination()
 

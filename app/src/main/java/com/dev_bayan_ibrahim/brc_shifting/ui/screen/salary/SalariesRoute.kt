@@ -12,11 +12,11 @@ import com.dev_bayan_ibrahim.brc_shifting.ui.navigate.BRCDestination
 import com.dev_bayan_ibrahim.brc_shifting.ui.screen.salary.action.SalaryNavActions
 
 @Composable
-fun SalaryRoute(
-    args: BRCDestination.Salary,
+fun SalariesRoute(
+    args: BRCDestination.Salaries,
     onPop: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SalaryViewModel = hiltViewModel(),
+    viewModel: SalariesViewModel = hiltViewModel(),
 ) {
     DisposableEffect(args) {
         viewModel.initSalaries(args)
@@ -35,7 +35,7 @@ fun SalaryRoute(
             SalaryNavActions(onPop)
         }
     }
-    SalaryScreen(
+    SalariesScreen(
         uiState,
         salaries,
         thisMonth,

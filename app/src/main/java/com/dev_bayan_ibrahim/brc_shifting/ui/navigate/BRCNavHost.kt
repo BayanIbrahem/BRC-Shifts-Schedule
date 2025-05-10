@@ -10,7 +10,7 @@ import com.dev_bayan_ibrahim.brc_shifting.ui.screen.bonus.BonusRoute
 import com.dev_bayan_ibrahim.brc_shifting.ui.screen.day_off.DayOffsRoute
 import com.dev_bayan_ibrahim.brc_shifting.ui.screen.deduction.DeductionRoute
 import com.dev_bayan_ibrahim.brc_shifting.ui.screen.employ.EmployeesRoute
-import com.dev_bayan_ibrahim.brc_shifting.ui.screen.salary.SalaryRoute
+import com.dev_bayan_ibrahim.brc_shifting.ui.screen.salary.SalariesRoute
 
 @Composable
 fun BRCNavHost(
@@ -27,7 +27,7 @@ fun BRCNavHost(
             EmployeesRoute(
                 args = employees,
                 navigateToSalary = {
-                    navController.navigate(BRCDestination.Salary(it.employeeNumber))
+                    navController.navigate(BRCDestination.Salaries(it.employeeNumber))
                 },
                 navigateToBonus = {
                     navController.navigate(BRCDestination.Bonus(it.employeeNumber))
@@ -41,9 +41,9 @@ fun BRCNavHost(
             )
         }
 
-        composable<BRCDestination.Salary> { backStackEntry ->
-            val salary: BRCDestination.Salary = backStackEntry.toRoute()
-            SalaryRoute(args = salary, onPop = navController::popBackStack)
+        composable<BRCDestination.Salaries> { backStackEntry ->
+            val salaries: BRCDestination.Salaries = backStackEntry.toRoute()
+            SalariesRoute(args = salaries, onPop = navController::popBackStack)
         }
 
         composable<BRCDestination.Bonus> { backStackEntry ->

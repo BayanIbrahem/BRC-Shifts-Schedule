@@ -1,5 +1,6 @@
 package com.dev_bayan_ibrahim.brc_shifting.domain.model.salary
 
+import com.dev_bayan_ibrahim.brc_shifting.domain.model.Employee
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.core.EmployeeRelated
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.core.Identified
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.core.MonthRelated
