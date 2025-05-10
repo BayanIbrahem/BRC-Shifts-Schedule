@@ -59,7 +59,7 @@ class RemoteDataSource(
                     string = trimmedBody,
                 )
             }
-        ).map {
+        ).mapCatching {
             it.toEmployee()
         }.also {
             Log.d(REMOTE_TAG, "employee(num: $employNumber, pw; $password) => $it")

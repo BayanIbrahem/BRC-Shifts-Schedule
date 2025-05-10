@@ -11,7 +11,7 @@ data class EmployeeMutateState(
     /**
      * disable this flag on edit
      */
-    val isEdit: Boolean = true,
+    val isAdd: Boolean = true,
     val employeeGroup: WorkGroup? = null,
     val employeePassword: String? = null,
     val requestResult: Result<Employee>? = null,

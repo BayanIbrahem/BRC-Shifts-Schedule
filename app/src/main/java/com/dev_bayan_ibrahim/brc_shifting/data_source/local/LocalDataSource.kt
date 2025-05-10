@@ -19,6 +19,7 @@ import com.dev_bayan_ibrahim.brc_shifting.util.WorkGroup
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
+import kotlinx.datetime.Instant
 
 class LocalDataSource(db: BrcDatabase) {
     private val bonusDao = db.getBonusDao()
@@ -28,7 +29,10 @@ class LocalDataSource(db: BrcDatabase) {
     private val salaryDao = db.getSalaryDao()
     suspend fun insertBonus(bonus: Bonus): Result<Long> = Result.success(bonusDao.insertBonus(bonus.toEntity()))
 
-    suspend fun insertBonusList(bonuses: List<Bonus>): Result<Unit> = Result.success(bonusDao.insertBonusList(bonuses.map { it.toEntity() }))
+    /**
+     * insert or replace
+     */
+    suspend fun insertBonusList(bonuses: List<Bonus>): List<Long> = bonusDao.insertBonusList(bonuses.map { it.toEntity() })
 
     suspend fun updateBonus(bonus: Bonus): Result<Unit> = Result.success(bonusDao.updateBonus(bonus.toEntity()))
 
@@ -36,26 +40,24 @@ class LocalDataSource(db: BrcDatabase) {
 
     suspend fun deleteBonus(bonus: Bonus): Result<Unit> = Result.success(bonusDao.deleteBonus(bonus.toEntity()))
 
-    suspend fun deleteBonusById(id: Long): Result<Unit> = Result.success(bonusDao.deleteBonusById(id))
+    suspend fun deleteBonus(id: Long): Result<Unit> = Result.success(bonusDao.deleteBonusById(id))
 
-    suspend fun deleteBonusByEmployeeNumber(employeeNumber: Int): Result<Unit> = Result.success(bonusDao.deleteBonusByEmployeeNumber(employeeNumber))
+    suspend fun deleteBonus(ids: Set<Long>): Result<Unit> = Result.success(bonusDao.deleteBonusListById(ids))
+
+    suspend fun deleteBonus(employeeNumber: Int): Result<Unit> = Result.success(bonusDao.deleteBonusByEmployeeNumber(employeeNumber))
 
     suspend fun deleteBonusesInDateRange(startDate: SimpleDate, endDate: SimpleDate): Result<Unit> =
         Result.success(bonusDao.deleteBonusesInDateRange(startDate.daysSinceEpoch, endDate.daysSinceEpoch))
 
-    fun getBonusesByEmployeeNumber(employeeNumber: Int): Flow<Result<List<Bonus>>> = bonusDao.getBonusesByEmployeeNumber(employeeNumber).map { list ->
-        if (list.isEmpty()) {
-            Result.failure(NoDataException("No bonuses found for employee number $employeeNumber"))
-        } else {
-            Result.success(list.map { it.toBonus() })
-        }
-    }.catch {
-        emit(Result.failure(it))
+    fun getEmployeeBonus(employeeNumber: Int): Flow<List<Bonus>> = bonusDao.getEmployeeBonus(employeeNumber).map { list ->
+        list.map { it.toBonus() }
     }
 
     fun getBonusById(id: Long): Flow<Result<Bonus>> = bonusDao.getBonusById(id).map { bonus ->
         bonus?.let { Result.success(it.toBonus()) } ?: Result.failure(NoDataException("No bonus found with id $id"))
     }.catch { emit(Result.failure(it)) }
+
+    fun getEmployeeBonusLastFetch(employeeNumber: Int): Flow<Instant?> = bonusDao.getEmployeeBonusLastFetch(employeeNumber)
 
     fun getBonusesInDateRange(startDate: SimpleDate, endDate: SimpleDate): Flow<Result<List<Bonus>>> =
         bonusDao.getBonusesInDateRange(startDate.daysSinceEpoch, endDate.daysSinceEpoch).map { list ->

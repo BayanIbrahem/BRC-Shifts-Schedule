@@ -48,7 +48,7 @@ fun BRCNavHost(
 
         composable<BRCDestination.Bonus> { backStackEntry ->
             val bonus: BRCDestination.Bonus = backStackEntry.toRoute()
-            BonusRoute(args = bonus)
+            BonusRoute(args = bonus, onPop = navController::popBackStack)
         }
 
         composable<BRCDestination.DayOffs> { backStackEntry ->

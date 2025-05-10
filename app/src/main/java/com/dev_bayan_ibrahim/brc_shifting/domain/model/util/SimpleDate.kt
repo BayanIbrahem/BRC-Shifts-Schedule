@@ -12,7 +12,7 @@ data class SimpleDate(
     val year: Int,
     val monthNumber: Int,
     val dayOfMonth: Int,
-) {
+) : Comparable<SimpleDate> {
     constructor(date: LocalDate) : this(
         year = date.year,
         monthNumber = date.monthNumber,
@@ -41,6 +41,14 @@ data class SimpleDate(
                 dayOfMonth = tokens[2]
             )
         }
+    }
+
+    override fun compareTo(other: SimpleDate): Int {
+        return sequenceOf(
+            year.compareTo(other.year),
+            monthNumber.compareTo(other.monthNumber),
+            dayOfMonth.compareTo(other.dayOfMonth)
+        ).firstOrNull { it != 0 } ?: 0
     }
 
     override fun toString(): String = "$year-$monthNumber-$dayOfMonth"

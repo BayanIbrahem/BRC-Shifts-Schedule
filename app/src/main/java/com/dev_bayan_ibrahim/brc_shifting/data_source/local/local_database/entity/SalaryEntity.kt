@@ -70,7 +70,14 @@ const val SALARY_YEAR = "salary_year"
         onDelete = ForeignKey.CASCADE,
         onUpdate = ForeignKey.CASCADE,
     )],
-    indices = [Index(value = [SALARY_EMPLOYEE_NUMBER])]
+    indices = [
+        Index(value = [SALARY_EMPLOYEE_NUMBER]),
+        // this to make sure that no more than one salary per month for each employee
+        Index(
+            value = [SALARY_EMPLOYEE_NUMBER, SALARY_MONTH_NUMBER, SALARY_YEAR],
+            unique = true
+        ),
+    ]
 )
 data class SalaryEntity(
     @PrimaryKey(autoGenerate = true)

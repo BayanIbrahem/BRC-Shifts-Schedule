@@ -213,7 +213,7 @@ class EmployViewModel @Inject constructor(
                 it.copy(
                     visibleDialog = EmployeeMutateState.DIALOG_ADD_LOCAL,
                     employeeName = employee.name,
-                    isEdit = false,
+                    isAdd = false,
                     employeeNumber = employee.employeeNumber,
                     employeeGroup = employee.group,
                     employeeCreateAt = employee.createdAt,

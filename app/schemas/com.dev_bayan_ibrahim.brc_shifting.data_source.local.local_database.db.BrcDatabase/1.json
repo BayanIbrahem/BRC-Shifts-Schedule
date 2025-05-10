@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2128d07871cdaa1d7eadb3d5665b0c8c",
+    "identityHash": "4d163cb479f04d13386f8538f4ef1c4c",
     "entities": [
       {
         "tableName": "bonus",
@@ -72,6 +72,18 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_bonus_bonus_employee_number` ON `${TABLE_NAME}` (`bonus_employee_number`)"
+          },
+          {
+            "name": "index_bonus_bonus_date_bonus_type_bonus_total_bonus_net",
+            "unique": true,
+            "columnNames": [
+              "bonus_date",
+              "bonus_type",
+              "bonus_total",
+              "bonus_net"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_bonus_bonus_date_bonus_type_bonus_total_bonus_net` ON `${TABLE_NAME}` (`bonus_date`, `bonus_type`, `bonus_total`, `bonus_net`)"
           }
         ],
         "foreignKeys": [
@@ -614,6 +626,17 @@
             ],
             "orders": [],
             "createSql": "CREATE INDEX IF NOT EXISTS `index_salary_salary_employee_number` ON `${TABLE_NAME}` (`salary_employee_number`)"
+          },
+          {
+            "name": "index_salary_salary_employee_number_salary_month_number_salary_year",
+            "unique": true,
+            "columnNames": [
+              "salary_employee_number",
+              "salary_month_number",
+              "salary_year"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_salary_salary_employee_number_salary_month_number_salary_year` ON `${TABLE_NAME}` (`salary_employee_number`, `salary_month_number`, `salary_year`)"
           }
         ],
         "foreignKeys": [
@@ -634,7 +657,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2128d07871cdaa1d7eadb3d5665b0c8c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4d163cb479f04d13386f8538f4ef1c4c')"
     ]
   }
 }

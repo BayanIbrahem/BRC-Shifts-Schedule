@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dev_bayan_ibrahim.brc_shifting.R
 import com.dev_bayan_ibrahim.brc_shifting.ui.theme.BRCShiftsTheme
-import com.dev_bayan_ibrahim.brc_shifting.util.format
+import com.dev_bayan_ibrahim.brc_shifting.util.formatDate
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -50,7 +50,7 @@ fun ShiftDatePicker(
     AssistChip(
         onClick = { show = true },
         label = {
-            Text(text = selectedDate.format())
+            Text(text = selectedDate.formatDate())
         },
     )
     if (show) {
@@ -88,7 +88,7 @@ fun ShiftDatePicker(
                             text = datePickerState
                                 .selectedDateMillis
                                 ?.asEpochMillisToDate()
-                                ?.format()
+                                ?.formatDate()
                                 ?: stringResource(R.string.invalid_date),
                             style = MaterialTheme.typography.titleLarge,
                         )

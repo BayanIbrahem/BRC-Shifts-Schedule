@@ -76,7 +76,6 @@ class SalariesViewModel @Inject constructor(
         },
         onFetchPrevMonth = {
             fetchSalary(false)
-
         },
         onDeleteSalary = {
             viewModelScope.launch {

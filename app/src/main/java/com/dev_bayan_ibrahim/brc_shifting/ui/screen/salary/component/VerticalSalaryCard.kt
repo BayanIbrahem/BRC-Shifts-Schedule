@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.salary.EmployeeSalary
-import com.dev_bayan_ibrahim.brc_shifting.util.format
+import com.dev_bayan_ibrahim.brc_shifting.util.formatDate
 import com.dev_bayan_ibrahim.brc_shifting.util.monthYearFormat
 
 @Composable
@@ -42,7 +42,7 @@ fun VerticalSalaryCard(
         },
         supportingContent = {
             // TODO, string res
-            Text("Last Update: ${salary.updatedAt.format()}")
+            Text("Last Update: ${salary.updatedAt.formatDate()}")
         },
         trailingContent = if (refreshable) {
             {

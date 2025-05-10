@@ -20,7 +20,20 @@ import kotlinx.datetime.Instant
         onDelete = ForeignKey.CASCADE,
         onUpdate = ForeignKey.CASCADE,
     )],
-    indices = [Index(value = [BonusEntity.BONUS_EMPLOYEE_NUMBER])]
+    indices = [
+        Index(value = [BonusEntity.BONUS_EMPLOYEE_NUMBER]),
+        // this index to make sure that bonus are not dublicated cause we can't check the id cause it is local and remote fetched bonus
+        // are without that id
+        Index(
+            value = [
+                BonusEntity.BONUS_DATE,
+                BonusEntity.BONUS_TYPE,
+                BonusEntity.BONUS_TOTAL,
+                BonusEntity.BONUS_NET
+            ],
+            unique = true
+        )
+    ]
 )
 data class BonusEntity(
     @PrimaryKey(autoGenerate = true)

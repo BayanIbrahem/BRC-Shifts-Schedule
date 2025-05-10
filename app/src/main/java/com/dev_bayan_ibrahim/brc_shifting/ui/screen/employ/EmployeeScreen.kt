@@ -173,7 +173,9 @@ fun EmployeeScreen(
                     }
                     if (showDeleteAllConfirmDialog) {
                         AlertDialog(
-                            onDismissRequest = {},
+                            onDismissRequest = {
+                                showDeleteAllConfirmDialog=false
+                            },
                             title = {
                                 Text(
                                     // TODO, string res
@@ -419,7 +421,7 @@ private fun AddLocalEmployeeDialog(
                 enabled = !mutateState.isLoading && mutateState.validLocalNewEmployee
             ) {
                 // TODO, string res
-                Text(if (mutateState.isEdit) "Edit" else "Add")
+                Text(if (mutateState.isAdd) "Add" else "Edit")
             }
         },
         text = {
@@ -436,7 +438,7 @@ private fun AddLocalEmployeeDialog(
                 )
                 OutlinedTextField(
                     value = mutateState.employeeNumber?.toString() ?: "",
-                    enabled = mutateState.isEdit,
+                    enabled = mutateState.isAdd,
                     onValueChange = {
                         it.toIntOrNull()?.let { number -> logicActions.onEmployeeNumberChange(number) }
                     },

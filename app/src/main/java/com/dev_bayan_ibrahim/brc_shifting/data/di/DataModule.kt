@@ -1,10 +1,12 @@
 package com.dev_bayan_ibrahim.brc_shifting.data.di
 
+import com.dev_bayan_ibrahim.brc_shifting.data.repo.BonusRepoImpl
 import com.dev_bayan_ibrahim.brc_shifting.data.repo.EmployeeRepoImpl
 import com.dev_bayan_ibrahim.brc_shifting.data.repo.SalaryRepoImpl
 import com.dev_bayan_ibrahim.brc_shifting.data_source.local.LocalDataSource
 import com.dev_bayan_ibrahim.brc_shifting.data_source.remote.RemoteDataSource
 import com.dev_bayan_ibrahim.brc_shifting.data_source.remote.uri.BRCUriDirector
+import com.dev_bayan_ibrahim.brc_shifting.domain.repo.BonusRepo
 import com.dev_bayan_ibrahim.brc_shifting.domain.repo.EmployeeRepo
 import com.dev_bayan_ibrahim.brc_shifting.domain.repo.SalaryRepo
 import dagger.Module
@@ -45,6 +47,16 @@ class DataModule {
         localDataSource: LocalDataSource,
         remoteDataSource: RemoteDataSource,
     ): SalaryRepo = SalaryRepoImpl(
+        localDataSource = localDataSource,
+        remoteDataSource = remoteDataSource
+    )
+
+    @Provides
+    @Singleton
+    fun provideBonusRepo(
+        localDataSource: LocalDataSource,
+        remoteDataSource: RemoteDataSource,
+    ): BonusRepo = BonusRepoImpl(
         localDataSource = localDataSource,
         remoteDataSource = remoteDataSource
     )

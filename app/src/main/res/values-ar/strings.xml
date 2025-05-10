@@ -43,4 +43,11 @@
     <string name="shift_rest3">استراحة 3</string>
 
     <string name="employees">الموظفين</string>
+
+    <string name = "bonus_reward">مكافأة</string>
+    <string name = "bonus_sick_leave">مرضية</string>
+    <string name = "bonus_Incentive">حوافز</string>
+    <string name = "bonus_overtime">إضافي</string>
+    <string name = "bonus_grant">منحة</string>
+    <string name = "bonus_unknown">مكافة غير معروفة</string>
 </resources>
