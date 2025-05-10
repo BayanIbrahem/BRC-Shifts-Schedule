@@ -11,10 +11,10 @@ data class CompositeCyclicShiftScheduleManager(
         CyclicShiftScheduleManager2,
     ),
 ) : ScheduleManager<CyclicShift> {
-    override fun getShift(
+    override fun getShiftOrNull(
         group: WorkGroup,
         date: LocalDate,
-    ): CyclicShift {
+    ): CyclicShift? {
         return managers.firstOrNull {
             it.startDate <= date
         }?.getShift(

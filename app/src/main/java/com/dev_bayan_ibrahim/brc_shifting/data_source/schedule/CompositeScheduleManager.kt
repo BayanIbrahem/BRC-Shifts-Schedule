@@ -7,13 +7,13 @@ import kotlinx.datetime.LocalDate
 data class CompositeScheduleManager(
     val managers: Set<ScheduleManager<out Shift>>,
 ) : ScheduleManager<Shift> {
-    override fun getShift(group: WorkGroup, date: LocalDate): Shift {
+    override fun getShiftOrNull(group: WorkGroup, date: LocalDate): Shift? {
         return managers.firstOrNull {
             it.supportGroup(group)
         }?.getShift(
             group = group,
             date = date
-        ) ?: throw IllegalArgumentException("can not find schedule manager for group $group")
+        )
     }
 
     override fun supportGroup(group: WorkGroup): Boolean {

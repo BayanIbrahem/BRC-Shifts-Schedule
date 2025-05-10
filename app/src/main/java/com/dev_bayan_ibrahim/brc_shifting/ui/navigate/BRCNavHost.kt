@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.dev_bayan_ibrahim.brc_shifting.ui.screen.bonus.BonusRoute
 import com.dev_bayan_ibrahim.brc_shifting.ui.screen.day_off.DayOffsRoute
+import com.dev_bayan_ibrahim.brc_shifting.ui.screen.shedule.ScheduleRoute
 import com.dev_bayan_ibrahim.brc_shifting.ui.screen.deduction.DeductionRoute
 import com.dev_bayan_ibrahim.brc_shifting.ui.screen.employ.EmployeesRoute
 import com.dev_bayan_ibrahim.brc_shifting.ui.screen.salary.SalariesRoute
@@ -39,6 +40,11 @@ fun BRCNavHost(
                     navController.navigate(BRCDestination.Deductions(it.employeeNumber))
                 }
             )
+        }
+
+        composable<BRCDestination.TopLevel.Schedule> { backStackEntry ->
+            val schedule: BRCDestination.TopLevel.Schedule = backStackEntry.toRoute()
+            ScheduleRoute(args = schedule)
         }
 
         composable<BRCDestination.Salaries> { backStackEntry ->

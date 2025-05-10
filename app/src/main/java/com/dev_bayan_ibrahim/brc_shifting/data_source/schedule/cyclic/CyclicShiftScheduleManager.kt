@@ -10,20 +10,23 @@ interface CyclicShiftScheduleManager<S : CyclicShift> : CyclicShiftSchedule<S>, 
      * @param index from 0 to ([cycleDays] - 1)
      */
     fun getShiftOfCycleIndex(index: Int, group: WorkGroup): S
-    override fun getShift(
+    override fun getShiftOrNull(
         group: WorkGroup,
         date: LocalDate,
-    ): S {
-        require(group is WorkGroup.Cyclic)
-        val daysDiff = (date.toEpochDays() - referenceDate.toEpochDays())
-        val initialIndex = referencePoints[group]!!.index
+    ): S? {
+        if (group is WorkGroup.Cyclic) {
+            val daysDiff = (date.toEpochDays() - referenceDate.toEpochDays())
+            val initialIndex = referencePoints[group]!!.index
 
-        val cycleIndex = initialIndex
-            .plus(daysDiff)
-            .mod(cycleDays)
-            .plus(cycleDays)
-            .mod(cycleDays)
-        return getShiftOfCycleIndex(cycleIndex, group)
+            val cycleIndex = initialIndex
+                .plus(daysDiff)
+                .mod(cycleDays)
+                .plus(cycleDays)
+                .mod(cycleDays)
+            return getShiftOfCycleIndex(cycleIndex, group)
+        } else {
+            return null
+        }
     }
 
     override fun supportGroup(group: WorkGroup): Boolean = group is WorkGroup.Cyclic

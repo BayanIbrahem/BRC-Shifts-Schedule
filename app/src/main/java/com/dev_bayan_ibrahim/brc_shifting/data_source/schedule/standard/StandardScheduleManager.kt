@@ -7,13 +7,16 @@ import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
 
 data object StandardScheduleManager : ScheduleManager<StandardShift> {
-    override fun getShift(group: WorkGroup, date: LocalDate): StandardShift {
-        require(group is WorkGroup.Standard)
-        val isWeekend = isWeekend(date)
-        return if (isWeekend) {
-            StandardShift.REST
+    override fun getShiftOrNull(group: WorkGroup, date: LocalDate): StandardShift? {
+        if (group is WorkGroup.Standard) {
+            val isWeekend = isWeekend(date)
+            return if (isWeekend) {
+                StandardShift.REST
+            } else {
+                StandardShift.WORK
+            }
         } else {
-            StandardShift.WORK
+            return null
         }
     }
 

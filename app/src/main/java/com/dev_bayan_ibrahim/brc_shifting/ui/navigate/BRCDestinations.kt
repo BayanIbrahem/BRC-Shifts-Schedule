@@ -25,15 +25,19 @@ sealed class BRCDestination {
 
         @Serializable
         data object Employees : TopLevel()
+        @Serializable
+        data object Schedule : TopLevel()
 
         enum class Enum(
             @StringRes val labelRes: Int,
         ) {
-            Employees(R.string.employees);
+            Employees(R.string.employees),
+            Schedule(R.string.schedule);
 
             val route
                 get() = when (this) {
                     Employees -> TopLevel.Employees
+                    Schedule -> TopLevel.Schedule
                 }
         }
     }

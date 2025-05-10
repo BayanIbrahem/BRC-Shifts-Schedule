@@ -42,6 +42,7 @@
     <string name="shift_rest3">Rest 3</string>
 
     <string name="employees">Employees</string>
+    <string name="schedule">Schedule</string>
 
     <string name = "bonus_reward">Reward Bonus</string>
     <string name = "bonus_sick_leave">Sick Leave Bonus</string>

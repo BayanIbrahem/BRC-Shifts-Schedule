@@ -8,15 +8,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -52,6 +55,9 @@ fun BRCBottomNavigationBar(
                 icon = {
                     TopLevelIcon(topLevelRoute)
                 },
+                label = {
+                    Text(stringResource(topLevelRoute.labelRes))
+                },
                 onClick = {
                     navController.topLevelNavigate(topLevelRoute.route)
                 }
@@ -68,6 +74,12 @@ private fun TopLevelIcon(
     when (route) {
         BRCDestination.TopLevel.Enum.Employees -> Icon(
             imageVector = Icons.Default.Person,
+            contentDescription = null,
+            modifier = modifier,
+        )
+
+        BRCDestination.TopLevel.Enum.Schedule -> Icon(
+            imageVector = Icons.Default.DateRange,
             contentDescription = null,
             modifier = modifier,
         )
