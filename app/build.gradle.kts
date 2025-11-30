@@ -14,14 +14,14 @@ room {
 }
 android {
     namespace = "com.dev_bayan_ibrahim.brc_shifting"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.dev_bayan_ibrahim.brc_shifting"
         minSdk = 21
         targetSdk = 35
-        versionCode = 3
-        versionName = "2.0"
+        versionCode = 4
+        versionName = "3.0"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
