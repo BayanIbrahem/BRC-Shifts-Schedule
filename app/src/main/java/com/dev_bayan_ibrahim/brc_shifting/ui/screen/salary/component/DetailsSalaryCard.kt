@@ -1,16 +1,25 @@
 package com.dev_bayan_ibrahim.brc_shifting.ui.screen.salary.component
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,6 +34,7 @@ import com.dev_bayan_ibrahim.brc_shifting.domain.model.salary.EmployeeSalary
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.salary.NetSalary
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.salary.SalaryAllowance
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.salary.SalaryDeduction
+import com.dev_bayan_ibrahim.brc_shifting.util.formatAsCurrency
 import com.dev_bayan_ibrahim.brc_shifting.util.monthYearFormat
 import kotlinx.datetime.LocalDate
 
@@ -44,23 +54,15 @@ fun DetailsSalaryCard(
             salaryDate = salary.atStartOfMonth,
             modifier = Modifier.fillMaxWidth(),
         ) // not expandable
-        NetSalaryCard(
-            net = salary,
-            modifier = Modifier.fillMaxWidth(),
-        ) // expandable, has a trailing head main value with netProvidedRounded
-        BaseSalaryCard(
-            baseSalary = salary,
-            modifier = Modifier.fillMaxWidth(),
-        ) // expandable, has a trailing main value of baseSalary
-        SalaryAllowanceCard(
-            allowance = salary,
-            modifier = Modifier.fillMaxWidth(),
-        ) // expandable, has a trailing head main value with allowanceProvidedTotal
-        SalaryDeductionCard(
-            deduction = salary,
-            modifier = Modifier.fillMaxWidth(),
-        ) // expandable, has a trailing head main value with deductionProvidedTotal
-        // add a card of deductions which has a main value of deductions sum (of monthly installment), and each value line is the deduction monthly installment
+        NetSalaryCard(net = salary, modifier = Modifier.fillMaxWidth())
+        BaseSalaryCard(baseSalary = salary, modifier = Modifier.fillMaxWidth())
+        SalaryAllowanceCard(allowance = salary, modifier = Modifier.fillMaxWidth())
+        SalaryDeductionCard(deduction = salary, modifier = Modifier.fillMaxWidth())
+
+        SalaryDeductionsSummaryCard(
+            deductions = deductions,
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
 
@@ -81,13 +83,15 @@ private fun SalaryEmployeeCard(
     }
 }
 
+
 @Composable
 fun BaseSalaryCard(
     baseSalary: BaseSalary,
     modifier: Modifier = Modifier,
 ) {
-    SalaryContainer(
+    ExpandableSalaryContainer(
         title = stringResource(R.string.base_salary),
+        mainValue = baseSalary.baseSalary,
         modifier = modifier,
     ) {
         NormalEntry(stringResource(R.string.base), baseSalary.baseSalary)
@@ -105,8 +109,9 @@ fun SalaryAllowanceCard(
     allowance: SalaryAllowance,
     modifier: Modifier = Modifier,
 ) {
-    SalaryContainer(
+    ExpandableSalaryContainer(
         title = stringResource(R.string.salary_allowances),
+        mainValue = allowance.allowanceProvidedTotal,
         modifier = modifier,
     ) {
         NormalEntry(stringResource(R.string.basic_allowance), allowance.basicAllowance)
@@ -134,8 +139,9 @@ fun SalaryDeductionCard(
     deduction: SalaryDeduction,
     modifier: Modifier = Modifier,
 ) {
-    SalaryContainer(
+    ExpandableSalaryContainer(
         title = stringResource(R.string.salary_deductions),
+        mainValue = -deduction.deductionProvidedTotal,
         modifier = modifier,
     ) {
         NormalEntry(stringResource(R.string.social_insurance), deduction.socialInsurance)
@@ -160,15 +166,40 @@ fun NetSalaryCard(
     net: NetSalary,
     modifier: Modifier = Modifier,
 ) {
-    SalaryContainer(
+    ExpandableSalaryContainer(
         title = stringResource(R.string.net_salary),
+        mainValue = net.netProvidedRounded,
         modifier = modifier,
+        colorMainValue = false,
     ) {
         NormalEntry(stringResource(R.string.total), net.netProvidedTotal)
         NormalEntry(stringResource(R.string.rounded_total), net.netProvidedRounded)
         NormalEntry(stringResource(R.string.rounding_adjustment), net.netProvidedRounding)
     }
 }
+
+@Composable
+fun SalaryDeductionsSummaryCard(
+    deductions: List<Deduction>,
+    modifier: Modifier = Modifier,
+) {
+    val totalInstallments = deductions.sumOf { it.monthlyInstallment }
+
+    ExpandableSalaryContainer(
+        title = stringResource(R.string.employee_deductions),
+        mainValue = -totalInstallments,
+        modifier = modifier,
+    ) {
+        deductions.forEach { d ->
+            NormalEntry(
+                label = d.name,
+                value = d.monthlyInstallment,
+                valueColor = MaterialTheme.colorScheme.error
+            )
+        }
+    }
+}
+
 
 @Composable
 private fun SalaryContainer(
@@ -192,6 +223,70 @@ private fun SalaryContainer(
     }
 }
 
+
+@Composable
+private fun ExpandableSalaryContainer(
+    title: String,
+    mainValue: Int,
+    modifier: Modifier = Modifier,
+    colorMainValue: Boolean = true,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    val sign = if (!colorMainValue) "" else if (mainValue >= 0) "+" else "-"
+    val valueColor =
+        if (!colorMainValue) {
+            MaterialTheme.colorScheme.onSurface
+        } else if (mainValue >= 0) {
+            MaterialTheme.colorScheme.primary
+        } else {
+            MaterialTheme.colorScheme.error
+        }
+
+    Card(
+        modifier = modifier,
+        onClick = { expanded = !expanded }
+    ) {
+        Column(Modifier.padding(12.dp)) {
+            Row(
+                Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = title,
+                    style = MaterialTheme.typography.titleMedium,
+                )
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        "$sign${kotlin.math.abs(mainValue).formatAsCurrency()}",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = valueColor
+                    )
+                    Icon(
+                        if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                        contentDescription = null
+                    )
+                }
+            }
+
+            AnimatedVisibility(visible = expanded) {
+                Column(
+                    Modifier
+                        .padding(top = 12.dp)
+                        .fillMaxWidth()
+                ) {
+                    content()
+                }
+            }
+        }
+    }
+}
+
+
 @Composable
 private fun NormalEntry(
     label: String,
@@ -212,7 +307,7 @@ private fun NormalEntry(
         )
         Text(
             modifier = Modifier,
-            text = value.toString(),
+            text = value.formatAsCurrency(),
             style = MaterialTheme.typography.bodyMedium,
             color = valueColor,
         )
@@ -239,7 +334,7 @@ private fun ImportantEntry(
         )
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            text = value.toString(),
+            text = value.formatAsCurrency(),
             style = MaterialTheme.typography.titleMedium,
             color = valueColor,
         )

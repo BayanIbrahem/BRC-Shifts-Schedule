@@ -126,6 +126,9 @@
     <string name="solidarity_tax">Solidarity Tax</string>
     <string name="net_salary">Net Salary</string>
     <string name="total">Total</string>
+
+    <string name = "employee_deductions">Employee Deductions</string>
+
     <string name="rounded_total">Rounded Total</string>
     <string name="version">Version</string>
     <string name="about_p1">This is a modified version of the Basic BRC app, which includes additional features such as:</string>
@@ -133,4 +136,17 @@
     <string name="about_p1_op2">• Schedule for shifts: Users can view the shift assigned to each workgroup for any selected day</string>
     <string name="about_p1_op3">This app is developed solely for research purposes.</string>
     <string name="about_p2">Note: This application collects and stores device information to prevent and address any illegal misuse of data.</string>
+    <string name="no_employee_selected">No employee selected</string>
+    <string name="deductions">Deductions</string>
+    <string name="refresh">Refresh</string>
+    <string name="month">Month</string>
+    <string name="year">Year</string>
+    <string name="remaining_x">Remaining: %1$s</string>
+    <string name="installment_x">Installment: %1$s</string>
+    <string name="total_paid_x">Total paid: %1$s</string>
+    <string name="estimated_months_left_x">Estimated months left: %1$s</string>
+    <string name="employee_recipe_number_x">Employee recipe number: %1$s</string>
+    <string name="fetched_at_x">Fetched at: %1$s</string>
+    <string name="updated_at_x">Updated at: %1$s</string>
+
 </resources>

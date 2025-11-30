@@ -42,8 +42,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.dev_bayan_ibrahim.brc_shifting.R
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.Deduction
+import com.dev_bayan_ibrahim.brc_shifting.util.formatAsCurrency
 import com.dev_bayan_ibrahim.brc_shifting.util.formatDateTime
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,7 +62,7 @@ fun DeductionsScreen(
             modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text("No employee selected")
+            Text(stringResource(R.string.no_employee_selected))
         }
         return
     }
@@ -134,7 +137,7 @@ private fun DeductionsTopBar(
         },
         title = {
             Column {
-                Text("Deductions")
+                Text(stringResource(R.string.deductions))
                 Text(
                     "${state.employee!!.name} - ${state.employee.employeeNumber}",
                     style = MaterialTheme.typography.bodySmall
@@ -154,7 +157,7 @@ private fun DeductionsTopBar(
                     IconButton(onClick = onRefresh) {
                         Icon(
                             imageVector = Icons.Default.Refresh,
-                            contentDescription = "Refresh"
+                            contentDescription = stringResource(R.string.refresh)
                         )
                     }
                 }
@@ -181,13 +184,13 @@ private fun MonthYearSelector(
             onValueChange = {
                 it.toIntOrNull().let(onMonthChange)
             },
-            label = { Text("Month") },
+            label = { Text(stringResource(R.string.month)) },
             modifier = Modifier.weight(1f),
         )
         OutlinedTextField(
             value = year.toString(),
             onValueChange = { it.toIntOrNull().let(onYearChange) },
-            label = { Text("Year") },
+            label = { Text(stringResource(R.string.year)) },
             modifier = Modifier.weight(1f),
         )
     }
@@ -224,8 +227,19 @@ private fun DeductionCard(
                 )
             }
 
-            Text("Remaining: ${deduction.remaining}", style = MaterialTheme.typography.bodyMedium)
-            Text("Installment: ${deduction.monthlyInstallment}", style = MaterialTheme.typography.bodyMedium)
+            Text(
+                text = stringResource(
+                    R.string.remaining_x,
+                    deduction.remaining.formatAsCurrency()
+                ),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = stringResource(
+                    R.string.installment_x,
+                    deduction.monthlyInstallment.formatAsCurrency()
+                ), style = MaterialTheme.typography.bodyMedium
+            )
 
             AnimatedVisibility(expanded) {
                 Column {
@@ -233,13 +247,19 @@ private fun DeductionCard(
                     HorizontalDivider()
                     Spacer(Modifier.height(12.dp))
 
-                    Text("Total: ${deduction.total}")
-                    Text("Total paid: $paid")
-                    Text("Estimated months left: $monthsLeft")
-                    Text("Employee recipe number: ${deduction.employRecipeNumber}")
 
-                    Text("Fetched at: ${deduction.createdAt.formatDateTime()}")
-                    Text("Updated at: ${deduction.createdAt.formatDateTime()}")
+                    Text(stringResource(
+                        R.string.total_x,
+                        deduction.total.formatAsCurrency()
+                    ))
+                    Text(stringResource(R.string.total_paid_x, paid.formatAsCurrency()))
+                    if (monthsLeft > 0) {
+                        Text(stringResource(R.string.estimated_months_left_x, monthsLeft.formatAsCurrency()))
+                    }
+                    Text(stringResource(R.string.employee_recipe_number_x, deduction.employRecipeNumber))
+
+                    Text(stringResource(R.string.fetched_at_x, deduction.updatedAt.formatDateTime()))
+//                    Text(stringResource(R.string.updated_at_x, deduction.createdAt.formatDateTime()))
                 }
             }
         }

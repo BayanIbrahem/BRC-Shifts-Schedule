@@ -127,7 +127,20 @@
     <string name="solidarity_tax">ضريبة التضامن</string>
     <string name="net_salary">صافي الراتب</string>
     <string name="total">الإجمالي</string>
+    <string name="no_employee_selected">لم يتم تحديد الموظف</string>
+    <string name="deductions">الحسميات</string>
+    <string name="refresh">تحديث</string>
+    <string name="month">الشهر</string>
+    <string name="year">السنة</string>
+    <string name="remaining_x">المتبقي: %1$s</string>
+    <string name="installment_x">القسط: %1$s</string>
+    <string name="total_paid_x">المدفوع الكلي: %1$s</string>
+    <string name="estimated_months_left_x">الأشهر المتبقية: %1$s</string>
+    <string name="employee_recipe_number_x">رقم الوصل: %1$s</string>
+    <string name="fetched_at_x">تاريخ جلب المعلومات: %1$s</string>
+    <string name="updated_at_x">تاريخ تحديث المعلومات: %1$s</string>
     <string name="rounded_total">المجموع بعد التقريب</string>
+
     <string name="version">نسخة</string>
     <string name="about_p1">هذا إصدار معدل من تطبيق BRC الأساسي، ويحتوي على ميزات إضافية مثل:</string>
     <string name="about_p1_op1">• تخزين محلي للاحتفاظ بالبيانات</string>

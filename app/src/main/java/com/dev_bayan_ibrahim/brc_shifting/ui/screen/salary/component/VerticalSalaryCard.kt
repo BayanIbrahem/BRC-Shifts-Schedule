@@ -19,6 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.dev_bayan_ibrahim.brc_shifting.R
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.salary.EmployeeSalary
+import com.dev_bayan_ibrahim.brc_shifting.util.formatAsCurrency
 import com.dev_bayan_ibrahim.brc_shifting.util.formatDate
 import com.dev_bayan_ibrahim.brc_shifting.util.monthYearFormat
 
@@ -37,7 +38,7 @@ fun VerticalSalaryCard(
             .clip(MaterialTheme.shapes.medium)
             .clickable(onClick = onClick),
         headlineContent = {
-            Text(salary.netProvidedRounded.toString())
+            Text(salary.netProvidedRounded.formatAsCurrency())
         },
         overlineContent = {
             Text(salary.atStartOfMonth.monthYearFormat())

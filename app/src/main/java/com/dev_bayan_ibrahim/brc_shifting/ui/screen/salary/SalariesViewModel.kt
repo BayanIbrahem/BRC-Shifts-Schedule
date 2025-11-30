@@ -148,6 +148,7 @@ class SalariesViewModel @Inject constructor(
                 }
             }
             val result = salaryRepo.getEmployeeRemoteSalary(state.employee.employeeNumber, thisMonth)
+            val deductionsResult = deductionsRepo.getRemoteDeductions(state.employee.employeeNumber)
             _uiState.update {
                 if (thisMonth) {
                     it.copy(thisMonthRequestLoading = false, requestResult = result)
