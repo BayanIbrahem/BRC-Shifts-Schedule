@@ -143,6 +143,9 @@ data class RemoteSalary(
         @SerialName("RECYCLE_SALARY")
         val prevSalaryRoundingAmount: String,
         @SerialName("TOTAL_ONE")
+        /**
+         * total one is basic salary + total allowance
+         */
         val totalOne: String,
         @SerialName("SOCIETY_INSURANCE")
         val societyInsurance: String,

@@ -23,10 +23,6 @@ class SalaryRepoImpl(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource,
 ) : SalaryRepo {
-    override suspend fun getEmployee(employeeNumber: Int): Employee? {
-        return localDataSource.getEmployee(employeeNumber).asResult().firstOrNull()?.getOrNull()
-    }
-
     override fun getEmployeeSalaries(employeeNumber: Int): Flow<List<EmployeeSalary>> {
         return localDataSource.getEmployeeSalaries(employeeNumber)
     }

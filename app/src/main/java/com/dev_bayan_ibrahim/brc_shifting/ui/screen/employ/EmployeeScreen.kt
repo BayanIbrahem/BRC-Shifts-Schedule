@@ -113,11 +113,9 @@ fun EmployeeScreen(
                 title = {
                     Text(
                         text = if (mutateState.isSelectionMode) {
-                            // TODO, string res
-                            "Selected Employees $selectedEmployeesCount of ${allEmployees.count()}"
+                            stringResource(R.string.selected_employees_x_of_y, selectedEmployeesCount, allEmployees.count())
                         } else {
-                            // TODO, string res
-                            "Employees"
+                            stringResource(R.string.employees)
                         }
                     )
                 },
@@ -148,8 +146,7 @@ fun EmployeeScreen(
                     ) {
                         DropdownMenuItem(
                             text = {
-                                // TODO, string res
-                                Text(if (mutateState.isSelectionMode) "Delete Selected" else "Delete all")
+                                Text(if (mutateState.isSelectionMode) stringResource(R.string.delete_selected) else stringResource(R.string.delete_all))
                             },
                             leadingIcon = { Icon(Icons.Default.Delete, null) },
                             onClick = {
@@ -160,8 +157,7 @@ fun EmployeeScreen(
                         if (mutateState.isSelectionMode && selectedEmployeesCount < allEmployeesCount) {
                             DropdownMenuItem(
                                 text = {
-                                    // TODO, string res
-                                    Text("Select all")
+                                    Text(stringResource(R.string.select_all))
                                 },
                                 leadingIcon = { Icon(Icons.Default.Check, null) },
                                 onClick = {
@@ -174,12 +170,16 @@ fun EmployeeScreen(
                     if (showDeleteAllConfirmDialog) {
                         AlertDialog(
                             onDismissRequest = {
-                                showDeleteAllConfirmDialog=false
+                                showDeleteAllConfirmDialog = false
                             },
                             title = {
                                 Text(
-                                    // TODO, string res
-                                    if (mutateState.isSelectionMode) "Are you sure you want to delete selected employees (x${selectedEmployeesCount})?" else "Are you sure you want to delete all employees?",
+                                    if (mutateState.isSelectionMode) stringResource(
+                                        R.string.delete_selected_employees_hint,
+                                        selectedEmployeesCount
+                                    ) else stringResource(
+                                        R.string.delete_all_employees_hint
+                                    ),
                                 )
                             },
                             confirmButton = {
@@ -194,15 +194,11 @@ fun EmployeeScreen(
                                     },
                                     colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error)
                                 ) {
-                                    // TODO, string res
-                                    Text("Delete")
+                                    Text(stringResource(R.string.delete))
                                 }
                             },
                             text = {
-                                Text(
-                                    // TODO, string res
-                                    "This action can not be undone",
-                                )
+                                Text(stringResource(R.string.no_undone_hint))
                             }
                         )
                     }
@@ -239,7 +235,7 @@ fun EmployeeScreen(
     ) { padding ->
         if (allEmployees.isEmpty()) {
             Text(
-                text = "No Employees",
+                text = stringResource(R.string.no_employees),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(20.dp),
@@ -268,7 +264,7 @@ fun EmployeeScreen(
                             logicActions.onUpdateQuery(it)
                         },
                         label = {
-                            Text("Search")
+                            Text(stringResource(R.string.search))
                         },
                         trailingIcon = {
                             var showSortMenu by remember {
@@ -357,7 +353,9 @@ fun EmployeeScreen(
                     EmployeeCard(
                         modifier = Modifier.animateItem(),
                         employee = employee,
+                        todayShift = scheduleOfToday[employee.group],
                         isSelected = isSelected,
+                        isSelectionMode=  mutateState.isSelectionMode,
                         navigateToSalary = {
                             navActions.navigateToSalary(employee)
                         },
@@ -413,15 +411,13 @@ private fun AddLocalEmployeeDialog(
         onDismissRequest = {
             logicActions.onDismissAddMutateEmployee()
         },
-        // TODO, string res
-        title = { Text("Add local employee") },
+        title = { Text(stringResource(R.string.add_local_employee)) },
         confirmButton = {
             TextButton(
                 onClick = { logicActions.onConfirmAddLocalEmployee() },
                 enabled = !mutateState.isLoading && mutateState.validLocalNewEmployee
             ) {
-                // TODO, string res
-                Text(if (mutateState.isAdd) "Add" else "Edit")
+                Text(if (mutateState.isAdd) stringResource(R.string.add) else stringResource(R.string.edit))
             }
         },
         text = {
@@ -432,8 +428,7 @@ private fun AddLocalEmployeeDialog(
                     value = mutateState.employeeName ?: "",
                     onValueChange = { name -> logicActions.onEmployeeNameChange(name) },
                     label = {
-                        // TODO, String res
-                        Text("Employee name")
+                        Text(stringResource(R.string.employee_name))
                     }
                 )
                 OutlinedTextField(
@@ -443,8 +438,7 @@ private fun AddLocalEmployeeDialog(
                         it.toIntOrNull()?.let { number -> logicActions.onEmployeeNumberChange(number) }
                     },
                     label = {
-                        // TODO, String res
-                        Text("Employee number")
+                        Text(stringResource(R.string.employee_number))
                     },
                 )
                 InputChip(
@@ -455,7 +449,7 @@ private fun AddLocalEmployeeDialog(
                     label = {
                         val alpha by animateFloatAsState(if (mutateState.employeeGroup == null) 0.38f else 1f)
                         Text(
-                            text = mutateState.employeeGroup?.let { stringResource(it.nameRes) } ?: "Select Group",
+                            text = mutateState.employeeGroup?.let { stringResource(it.nameRes) } ?: stringResource(R.string.select_group),
                             modifier = Modifier.graphicsLayer { this.alpha = alpha },
                         )
                         DropdownMenu(
@@ -494,8 +488,7 @@ private fun AddRemoteEmployeeDialog(
         onDismissRequest = {
             logicActions.onDismissAddMutateEmployee()
         },
-        // TODO, string res
-        title = { Text("Add remote employee") },
+        title = { Text(stringResource(R.string.add_remote_employee)) },
         confirmButton = {
             TextButton(
                 onClick = {
@@ -503,8 +496,7 @@ private fun AddRemoteEmployeeDialog(
                 },
                 enabled = !mutateState.isLoading && mutateState.validRemoteNewEmployee
             ) {
-                // TODO, string res
-                Text("Add")
+                Text(stringResource(R.string.add))
             }
         },
         text = {
@@ -517,8 +509,7 @@ private fun AddRemoteEmployeeDialog(
                         it.toIntOrNull()?.let { number -> logicActions.onEmployeeNumberChange(number) }
                     },
                     label = {
-                        // TODO, String res
-                        Text("Employee number")
+                        Text(stringResource(R.string.employee_number))
                     },
                 )
                 OutlinedTextField(
@@ -527,8 +518,7 @@ private fun AddRemoteEmployeeDialog(
                         logicActions.onEmployeePasswordChange(it)
                     },
                     label = {
-                        // TODO, String res
-                        Text("Employee password")
+                        Text(stringResource(R.string.employee_password))
                     },
                 )
                 InputChip(
@@ -539,7 +529,7 @@ private fun AddRemoteEmployeeDialog(
                     label = {
                         val alpha by animateFloatAsState(if (mutateState.employeeGroup == null) 0.38f else 1f)
                         Text(
-                            text = mutateState.employeeGroup?.let { stringResource(it.nameRes) } ?: "Select Group",
+                            text = mutateState.employeeGroup?.let { stringResource(it.nameRes) } ?: stringResource(R.string.select_group),
                             modifier = Modifier.graphicsLayer { this.alpha = alpha },
                         )
                         DropdownMenu(
@@ -569,6 +559,8 @@ private fun AddRemoteEmployeeDialog(
 fun EmployeeCard(
     employee: Employee,
     isSelected: Boolean,
+    isSelectionMode: Boolean,
+    todayShift: Shift? = null,
     navigateToSalary: () -> Unit,
     navigateToBonus: () -> Unit,
     navigateToDayOffs: () -> Unit,
@@ -615,13 +607,18 @@ fun EmployeeCard(
             .clip(MaterialTheme.shapes.medium)
             .combinedClickable(
                 onLongClick = onToggleSelect
-            ) { showMenu = true },
+            ) {
+                showMenu = true
+                if(isSelectionMode) {
+                    onToggleSelect()
+                }
+            },
         headlineContent = {
             Text(employee.name)
         },
-        overlineContent = employee.group?.let { group ->
+        overlineContent = todayShift?.let { shift ->
             {
-                Text(stringResource(group.nameRes))
+                Text(stringResource(shift.shiftName))
             }
         },
         leadingContent = {
@@ -644,7 +641,7 @@ fun EmployeeCard(
                 DropdownMenuItem(
                     onClick = navigateToSalary,
                     text = {
-                        Text("See Salary")
+                        Text(stringResource(R.string.see_salary))
                     },
                     leadingIcon = {
                         // TODO, icon res
@@ -654,7 +651,7 @@ fun EmployeeCard(
                 DropdownMenuItem(
                     onClick = navigateToBonus,
                     text = {
-                        Text("See Bonus")
+                        Text(stringResource(R.string.see_bonus))
                     },
                     leadingIcon = {
                         // TODO, icon res
@@ -664,7 +661,7 @@ fun EmployeeCard(
                 DropdownMenuItem(
                     onClick = navigateToDayOffs,
                     text = {
-                        Text("See Day offs")
+                        Text(stringResource(R.string.see_day_offs))
                     },
                     leadingIcon = {
                         // TODO, icon res
@@ -674,7 +671,7 @@ fun EmployeeCard(
                 DropdownMenuItem(
                     onClick = navigateToDeductions,
                     text = {
-                        Text("See Deductions")
+                        Text(stringResource(R.string.see_deductions))
                     },
                     leadingIcon = {
                         // TODO, icon res
@@ -691,8 +688,7 @@ fun EmployeeCard(
                         textColor = MaterialTheme.colorScheme.primary
                     ),
                     text = {
-                        // TODO, string res
-                        Text("Update")
+                        Text(stringResource(R.string.edit))
                     },
                     leadingIcon = {
                         Icon(Icons.Default.Edit, null)
@@ -708,8 +704,7 @@ fun EmployeeCard(
                         textColor = MaterialTheme.colorScheme.error
                     ),
                     text = {
-                        // TODO, string res
-                        Text("Delete")
+                        Text(stringResource(R.string.delete))
                     },
                     leadingIcon = {
                         Icon(Icons.Default.Delete, null)

@@ -23,6 +23,7 @@ fun SalariesRoute(
         onDispose { }
     }
     val salaries by viewModel.salaries.collectAsStateWithLifecycle()
+    val deductions by viewModel.deductions.collectAsStateWithLifecycle()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val thisMonth by viewModel.thisMonthFlow.collectAsStateWithLifecycle()
     val logicActions by remember {
@@ -36,12 +37,13 @@ fun SalariesRoute(
         }
     }
     SalariesScreen(
-        uiState,
-        salaries,
-        thisMonth,
-        logicActions,
-        navActions,
-        modifier,
+        uiState = uiState,
+        salaries = salaries,
+        deductions = deductions,
+        thisMonth = thisMonth,
+        logicActions = logicActions,
+        navActions = navActions,
+        modifier = modifier,
     )
 
 }

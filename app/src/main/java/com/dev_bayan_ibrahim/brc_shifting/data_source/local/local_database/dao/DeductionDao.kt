@@ -34,6 +34,13 @@ interface DeductionDao {
     @Query("DELETE FROM ${DeductionEntity.DEDUCTION_TABLE} WHERE ${DeductionEntity.DEDUCTION_YEAR} = :year AND (${DeductionEntity.DEDUCTION_MONTH} = :month OR :month IS NULL)")
     suspend fun deleteDeductionsByYearAndOptionalMonth(year: Int, month: Int?)
 
+    @Query("DELETE FROM ${DeductionEntity.DEDUCTION_TABLE} WHERE ${DeductionEntity.DEDUCTION_YEAR} = :year AND (${DeductionEntity.DEDUCTION_MONTH} = :month OR :month IS NULL) AND ${DeductionEntity.DEDUCTION_EMPLOYEE_NUMBER} = :employeeNumber")
+    suspend fun deleteDeductionsByYearAndOptionalMonthAndEmployeeNumber(
+        employeeNumber: Int,
+        year: Int,
+        month: Int?,
+    )
+
     @Query("SELECT * FROM ${DeductionEntity.DEDUCTION_TABLE} WHERE ${DeductionEntity.DEDUCTION_EMPLOYEE_NUMBER} = :employeeNumber ORDER BY ${DeductionEntity.DEDUCTION_YEAR} DESC, ${DeductionEntity.DEDUCTION_MONTH} DESC")
     fun getDeductionsByEmployeeNumber(employeeNumber: Int): Flow<List<DeductionEntity>>
 

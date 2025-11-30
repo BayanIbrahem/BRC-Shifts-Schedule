@@ -1,0 +1,663 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "4d163cb479f04d13386f8538f4ef1c4c",
+    "entities": [
+      {
+        "tableName": "bonus",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`bonus_id` INTEGER PRIMARY KEY AUTOINCREMENT, `bonus_employee_number` INTEGER NOT NULL, `bonus_date` INTEGER NOT NULL, `bonus_type` TEXT NOT NULL, `bonus_total` INTEGER NOT NULL, `bonus_net` INTEGER NOT NULL, `bonus_created_at` INTEGER NOT NULL, `bonus_updated_at` INTEGER NOT NULL, FOREIGN KEY(`bonus_employee_number`) REFERENCES `employee`(`employee_number`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "bonus_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "employeeNumber",
+            "columnName": "bonus_employee_number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "bonus_date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "bonus_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "total",
+            "columnName": "bonus_total",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "net",
+            "columnName": "bonus_net",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "bonus_created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "bonus_updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "bonus_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_bonus_bonus_employee_number",
+            "unique": false,
+            "columnNames": [
+              "bonus_employee_number"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_bonus_bonus_employee_number` ON `${TABLE_NAME}` (`bonus_employee_number`)"
+          },
+          {
+            "name": "index_bonus_bonus_date_bonus_type_bonus_total_bonus_net",
+            "unique": true,
+            "columnNames": [
+              "bonus_date",
+              "bonus_type",
+              "bonus_total",
+              "bonus_net"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_bonus_bonus_date_bonus_type_bonus_total_bonus_net` ON `${TABLE_NAME}` (`bonus_date`, `bonus_type`, `bonus_total`, `bonus_net`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "employee",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "bonus_employee_number"
+            ],
+            "referencedColumns": [
+              "employee_number"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "day_off",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`day_off_id` INTEGER PRIMARY KEY AUTOINCREMENT, `day_off_employee_number` INTEGER NOT NULL, `day_off_date` INTEGER NOT NULL, `day_off_type` TEXT NOT NULL, `day_off_work_date` INTEGER, `day_off_days` INTEGER, `day_off_period` REAL NOT NULL, `day_off_created_at` INTEGER NOT NULL, `day_off_updated_at` INTEGER NOT NULL, FOREIGN KEY(`day_off_employee_number`) REFERENCES `employee`(`employee_number`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "day_off_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "employeeNumber",
+            "columnName": "day_off_employee_number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "day_off_date",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type",
+            "columnName": "day_off_type",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "workDate",
+            "columnName": "day_off_work_date",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "days",
+            "columnName": "day_off_days",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "period",
+            "columnName": "day_off_period",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "day_off_created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "day_off_updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "day_off_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_day_off_day_off_employee_number",
+            "unique": false,
+            "columnNames": [
+              "day_off_employee_number"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_day_off_day_off_employee_number` ON `${TABLE_NAME}` (`day_off_employee_number`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "employee",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "day_off_employee_number"
+            ],
+            "referencedColumns": [
+              "employee_number"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "employee_deduction",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`deduction_id` INTEGER PRIMARY KEY AUTOINCREMENT, `deduction_employee_number` INTEGER NOT NULL, `deduction_month` INTEGER NOT NULL, `deduction_year` INTEGER NOT NULL, `deduction_name` TEXT NOT NULL, `deduction_total` INTEGER NOT NULL, `deduction_remaining` INTEGER NOT NULL, `deduction_monthly_installment` INTEGER NOT NULL, `deduction_recipe_number` TEXT NOT NULL, `deduction_created_at` INTEGER NOT NULL, `deduction_updated_at` INTEGER NOT NULL, FOREIGN KEY(`deduction_employee_number`) REFERENCES `employee`(`employee_number`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "deduction_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "employeeNumber",
+            "columnName": "deduction_employee_number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "monthNumber",
+            "columnName": "deduction_month",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "year",
+            "columnName": "deduction_year",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "deduction_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "total",
+            "columnName": "deduction_total",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remaining",
+            "columnName": "deduction_remaining",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "monthlyInstallment",
+            "columnName": "deduction_monthly_installment",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "employRecipeNumber",
+            "columnName": "deduction_recipe_number",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "deduction_created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "deduction_updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "deduction_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_employee_deduction_deduction_employee_number",
+            "unique": false,
+            "columnNames": [
+              "deduction_employee_number"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_employee_deduction_deduction_employee_number` ON `${TABLE_NAME}` (`deduction_employee_number`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "employee",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "deduction_employee_number"
+            ],
+            "referencedColumns": [
+              "employee_number"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "employee",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`employee_number` INTEGER NOT NULL, `employee_name` TEXT NOT NULL, `employee_remote_id` TEXT NOT NULL, `employee_group` TEXT, `employee_created_at` INTEGER NOT NULL, `employee_updated_at` INTEGER NOT NULL, PRIMARY KEY(`employee_number`))",
+        "fields": [
+          {
+            "fieldPath": "employeeNumber",
+            "columnName": "employee_number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "employee_name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "remoteId",
+            "columnName": "employee_remote_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "group",
+            "columnName": "employee_group",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "employee_created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "employee_updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "employee_number"
+          ]
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "salary",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`salary_id` INTEGER PRIMARY KEY AUTOINCREMENT, `salary_employee_number` INTEGER NOT NULL, `salary_base_salary` INTEGER NOT NULL, `salary_insurance` INTEGER NOT NULL, `salary_compensation` INTEGER NOT NULL, `salary_illness_days_off_count` INTEGER NOT NULL, `salary_unpaid_days_off` INTEGER NOT NULL, `salary_punishment_days_off` INTEGER NOT NULL, `salary_children_count` INTEGER NOT NULL, `salary_wives_count` INTEGER NOT NULL, `salary_basic_allowance` INTEGER NOT NULL, `salary_family_compensation` INTEGER NOT NULL, `salary_management_bonus` INTEGER NOT NULL, `salary_responsibility_allowance` INTEGER NOT NULL, `salary_specialist_bonus` INTEGER NOT NULL, `salary_position_allowance` INTEGER NOT NULL, `salary_general_compensations` INTEGER NOT NULL, `salary_overtime_pay` INTEGER NOT NULL, `salary_extra_hours_pay` INTEGER NOT NULL, `salary_committee_bonus` INTEGER NOT NULL, `salary_competence_allowance` INTEGER NOT NULL, `salary_effort_bonus` INTEGER NOT NULL, `salary_warming_allowance` INTEGER NOT NULL, `salary_rounding_adjustment` INTEGER NOT NULL, `salary_allowance_total` INTEGER NOT NULL, `salary_social_insurance` INTEGER NOT NULL, `salary_salary_insurance` INTEGER NOT NULL, `salary_financial_commitments` INTEGER NOT NULL, `salary_income_tax` INTEGER NOT NULL, `salary_engineer_association` INTEGER NOT NULL, `salary_freedom_organization` INTEGER NOT NULL, `salary_workers_union` INTEGER NOT NULL, `salary_charity_box` INTEGER NOT NULL, `salary_agricultural_association` INTEGER NOT NULL, `salary_ministry_fund` INTEGER NOT NULL, `salary_solidarity_tax` INTEGER NOT NULL, `salary_deduction_total` INTEGER NOT NULL, `salary_net_total` INTEGER NOT NULL, `salary_net_rounded` INTEGER NOT NULL, `salary_net_rounding` INTEGER NOT NULL, `salary_created_at` INTEGER NOT NULL, `salary_updated_at` INTEGER NOT NULL, `salary_month_number` INTEGER NOT NULL, `salary_year` INTEGER NOT NULL, FOREIGN KEY(`salary_employee_number`) REFERENCES `employee`(`employee_number`) ON UPDATE CASCADE ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "salary_id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "employeeNumber",
+            "columnName": "salary_employee_number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "baseSalary",
+            "columnName": "salary_base_salary",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "insurance",
+            "columnName": "salary_insurance",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "salaryCompensation",
+            "columnName": "salary_compensation",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "illnessDaysOffCount",
+            "columnName": "salary_illness_days_off_count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "unpaidDaysOff",
+            "columnName": "salary_unpaid_days_off",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "punishmentDaysOff",
+            "columnName": "salary_punishment_days_off",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "childrenCount",
+            "columnName": "salary_children_count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "wivesCount",
+            "columnName": "salary_wives_count",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "basicAllowance",
+            "columnName": "salary_basic_allowance",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "familyCompensation",
+            "columnName": "salary_family_compensation",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "managementBonus",
+            "columnName": "salary_management_bonus",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responsibilityAllowance",
+            "columnName": "salary_responsibility_allowance",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "specialistBonus",
+            "columnName": "salary_specialist_bonus",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "positionAllowance",
+            "columnName": "salary_position_allowance",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generalCompensations",
+            "columnName": "salary_general_compensations",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "overtimePay",
+            "columnName": "salary_overtime_pay",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "extraHoursPay",
+            "columnName": "salary_extra_hours_pay",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "committeeBonus",
+            "columnName": "salary_committee_bonus",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "competenceAllowance",
+            "columnName": "salary_competence_allowance",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "effortBonus",
+            "columnName": "salary_effort_bonus",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "warmingAllowance",
+            "columnName": "salary_warming_allowance",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "salaryRoundingAdjustment",
+            "columnName": "salary_rounding_adjustment",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "allowanceProvidedTotal",
+            "columnName": "salary_allowance_total",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "socialInsurance",
+            "columnName": "salary_social_insurance",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "salaryInsurance",
+            "columnName": "salary_salary_insurance",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "financialCommitments",
+            "columnName": "salary_financial_commitments",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "incomeTax",
+            "columnName": "salary_income_tax",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "engineerAssociation",
+            "columnName": "salary_engineer_association",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "freedomOrganization",
+            "columnName": "salary_freedom_organization",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "workersUnion",
+            "columnName": "salary_workers_union",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "charityBox",
+            "columnName": "salary_charity_box",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "agriculturalAssociation",
+            "columnName": "salary_agricultural_association",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ministryFund",
+            "columnName": "salary_ministry_fund",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "solidarityTax",
+            "columnName": "salary_solidarity_tax",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deductionProvidedTotal",
+            "columnName": "salary_deduction_total",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "netProvidedTotal",
+            "columnName": "salary_net_total",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "netProvidedRounded",
+            "columnName": "salary_net_rounded",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "netProvidedRounding",
+            "columnName": "salary_net_rounding",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "createdAt",
+            "columnName": "salary_created_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "updatedAt",
+            "columnName": "salary_updated_at",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "monthNumber",
+            "columnName": "salary_month_number",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "year",
+            "columnName": "salary_year",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "salary_id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_salary_salary_employee_number",
+            "unique": false,
+            "columnNames": [
+              "salary_employee_number"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_salary_salary_employee_number` ON `${TABLE_NAME}` (`salary_employee_number`)"
+          },
+          {
+            "name": "index_salary_salary_employee_number_salary_month_number_salary_year",
+            "unique": true,
+            "columnNames": [
+              "salary_employee_number",
+              "salary_month_number",
+              "salary_year"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_salary_salary_employee_number_salary_month_number_salary_year` ON `${TABLE_NAME}` (`salary_employee_number`, `salary_month_number`, `salary_year`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "employee",
+            "onDelete": "CASCADE",
+            "onUpdate": "CASCADE",
+            "columns": [
+              "salary_employee_number"
+            ],
+            "referencedColumns": [
+              "employee_number"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4d163cb479f04d13386f8538f4ef1c4c')"
+    ]
+  }
+}

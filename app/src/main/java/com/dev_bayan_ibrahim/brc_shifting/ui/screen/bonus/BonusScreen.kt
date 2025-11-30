@@ -51,6 +51,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
+import com.dev_bayan_ibrahim.brc_shifting.R
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.Bonus
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.BonusType
 import com.dev_bayan_ibrahim.brc_shifting.ui.screen.bonus.action.BonusLogicActions
@@ -74,8 +75,7 @@ fun BonusScreen(
             modifier = modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            //TODO, string res
-            Text("Invalid Employee")
+            Text(stringResource(R.string.invalid_employee))
         }
     } else {
         val pullToRefreshState = rememberPullToRefreshState()
@@ -102,16 +102,14 @@ fun BonusScreen(
                         Column {
                             Text(
                                 text = if (uiState.isSelectionMode) {
-                                    // TODO, string res
-                                    "Selected bonuses $selectedBonusesCount of $allBonusCount"
+                                    stringResource(R.string.selected_bonuses_x_of_y, selectedBonusesCount, allBonusCount)
                                 } else {
-                                    // TODO, string res
-                                    "Bonuses - ${uiState.employee.name}"
+                                    stringResource(R.string.bonuses_of_x, uiState.employee.name)
                                 }
                             )
                             bonusList.firstOrNull()?.updatedAt?.let {
                                 Text(
-                                    "Last Update - ${it.formatDateTime()}",
+                                    stringResource(R.string.last_update_x, it.formatDateTime()),
                                     style = MaterialTheme.typography.labelMedium,
                                     color = MaterialTheme.colorScheme.outline
                                 )
@@ -157,8 +155,7 @@ fun BonusScreen(
                         ) {
                             DropdownMenuItem(
                                 text = {
-                                    // TODO, string res
-                                    Text(if (uiState.isSelectionMode) "Delete Selected" else "Delete all")
+                                    Text(if (uiState.isSelectionMode) stringResource(R.string.delete_selected) else stringResource(R.string.delete_all))
                                 },
                                 leadingIcon = { Icon(Icons.Default.Delete, null) },
                                 onClick = {
@@ -169,8 +166,7 @@ fun BonusScreen(
                             if (uiState.isSelectionMode && selectedBonusesCount < allBonusCount) {
                                 DropdownMenuItem(
                                     text = {
-                                        // TODO, string res
-                                        Text("Select all")
+                                        Text(stringResource(R.string.select_all))
                                     },
                                     leadingIcon = { Icon(Icons.Default.Check, null) },
                                     onClick = {
@@ -187,8 +183,12 @@ fun BonusScreen(
                                 },
                                 title = {
                                     Text(
-                                        // TODO, string res
-                                        if (uiState.isSelectionMode) "Are you sure you want to delete selected bonus (x${selectedBonusesCount})?" else "Are you sure you want to delete all bonuses?",
+                                        if (uiState.isSelectionMode) stringResource(
+                                            R.string.delete_selected_bonus_hint,
+                                            selectedBonusesCount
+                                        ) else stringResource(
+                                            R.string.delete_all_bonus_hint
+                                        ),
                                     )
                                 },
                                 confirmButton = {
@@ -203,15 +203,11 @@ fun BonusScreen(
                                         },
                                         colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error)
                                     ) {
-                                        // TODO, string res
-                                        Text("Delete")
+                                        Text(stringResource(R.string.delete))
                                     }
                                 },
                                 text = {
-                                    Text(
-                                        // TODO, string res
-                                        "This action can not be undone",
-                                    )
+                                    Text(stringResource(R.string.no_undone_hint))
                                 }
                             )
                         }
@@ -253,7 +249,7 @@ fun BonusScreen(
                                         modifier = Modifier.padding(vertical = 6.dp),
                                     ) {
                                         Text(stringResource(entry.key.nameRes) + " x${entry.value.first}")
-                                        Text("Total: ${entry.value.second}")
+                                        Text(stringResource(R.string.total_x, entry.value.second))
                                     }
                                 }
                             )
@@ -367,8 +363,7 @@ fun BonusCard(
                         Icon(Icons.Default.Delete, null)
                     },
                     text = {
-                        // TODO, string res
-                        Text("Delete")
+                        Text(stringResource(R.string.delete))
                     },
                     onClick = {
                         showDropdown = false

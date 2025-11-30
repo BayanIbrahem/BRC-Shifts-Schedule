@@ -3,11 +3,9 @@ package com.dev_bayan_ibrahim.brc_shifting.ui.screen.salary.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -16,8 +14,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.dev_bayan_ibrahim.brc_shifting.R
+import com.dev_bayan_ibrahim.brc_shifting.domain.model.Deduction
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.Employee
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.salary.BaseSalary
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.salary.EmployeeSalary
@@ -31,6 +32,7 @@ import kotlinx.datetime.LocalDate
 fun DetailsSalaryCard(
     employee: Employee,
     salary: EmployeeSalary,
+    deductions: List<Deduction>,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -41,23 +43,24 @@ fun DetailsSalaryCard(
             employee = employee,
             salaryDate = salary.atStartOfMonth,
             modifier = Modifier.fillMaxWidth(),
-        )
-        BaseSalaryCard(
-            baseSalary = salary,
-            modifier = Modifier.fillMaxWidth(),
-        )
+        ) // not expandable
         NetSalaryCard(
             net = salary,
             modifier = Modifier.fillMaxWidth(),
-        )
+        ) // expandable, has a trailing head main value with netProvidedRounded
+        BaseSalaryCard(
+            baseSalary = salary,
+            modifier = Modifier.fillMaxWidth(),
+        ) // expandable, has a trailing main value of baseSalary
         SalaryAllowanceCard(
             allowance = salary,
             modifier = Modifier.fillMaxWidth(),
-        )
+        ) // expandable, has a trailing head main value with allowanceProvidedTotal
         SalaryDeductionCard(
             deduction = salary,
             modifier = Modifier.fillMaxWidth(),
-        )
+        ) // expandable, has a trailing head main value with deductionProvidedTotal
+        // add a card of deductions which has a main value of deductions sum (of monthly installment), and each value line is the deduction monthly installment
     }
 }
 
@@ -68,14 +71,13 @@ private fun SalaryEmployeeCard(
 
     modifier: Modifier = Modifier,
 ) {
-    // TODO, string res
     SalaryContainer(
-        title = "Employee",
+        title = stringResource(R.string.employee),
         modifier = modifier,
     ) {
-        Text("Name ${employee.name}", style = MaterialTheme.typography.bodyMedium)
-        Text("Number ${employee.employeeNumber}", style = MaterialTheme.typography.bodyMedium)
-        Text("Salary ${salaryDate.monthYearFormat()}", style = MaterialTheme.typography.bodyMedium)
+        Text(stringResource(R.string.name_x, employee.name), style = MaterialTheme.typography.bodyMedium)
+        Text(stringResource(R.string.number_x, employee.employeeNumber), style = MaterialTheme.typography.bodyMedium)
+        Text(stringResource(R.string.salary_x, salaryDate.monthYearFormat()), style = MaterialTheme.typography.bodyMedium)
     }
 }
 
@@ -84,18 +86,17 @@ fun BaseSalaryCard(
     baseSalary: BaseSalary,
     modifier: Modifier = Modifier,
 ) {
-    // TODO, string res
     SalaryContainer(
-        title = "Base Salary",
+        title = stringResource(R.string.base_salary),
         modifier = modifier,
     ) {
-        NormalEntry("Base", baseSalary.baseSalary)
-        NormalEntry("Insurance", baseSalary.insurance)
-        NormalEntry("Salary Compensation", baseSalary.salaryCompensation)
-        NormalEntry("Illness Days Off", baseSalary.illnessDaysOffCount)
-        NormalEntry("Punishment Days off", baseSalary.punishmentDaysOff)
-        NormalEntry("Children", baseSalary.childrenCount)
-        NormalEntry("Wives", baseSalary.wivesCount)
+        NormalEntry(stringResource(R.string.base), baseSalary.baseSalary)
+        NormalEntry(stringResource(R.string.insurance), baseSalary.insurance)
+        NormalEntry(stringResource(R.string.salary_compensation), baseSalary.salaryCompensation)
+        NormalEntry(stringResource(R.string.illness_days_off), baseSalary.illnessDaysOffCount)
+        NormalEntry(stringResource(R.string.punishment_days_off), baseSalary.punishmentDaysOff)
+        NormalEntry(stringResource(R.string.children), baseSalary.childrenCount)
+        NormalEntry(stringResource(R.string.wives), baseSalary.wivesCount)
     }
 }
 
@@ -105,26 +106,26 @@ fun SalaryAllowanceCard(
     modifier: Modifier = Modifier,
 ) {
     SalaryContainer(
-        title = "Salary Allowances",
+        title = stringResource(R.string.salary_allowances),
         modifier = modifier,
     ) {
-        NormalEntry("Basic Allowance", allowance.basicAllowance)
-        NormalEntry("Family Compensation", allowance.familyCompensation)
-        NormalEntry("Management Bonus", allowance.managementBonus)
-        NormalEntry("Responsibility Allowance", allowance.responsibilityAllowance)
-        NormalEntry("Specialist Bonus", allowance.specialistBonus)
-        NormalEntry("Position Allowance", allowance.positionAllowance)
-        NormalEntry("General Compensations", allowance.generalCompensations)
-        NormalEntry("Overtime Pay", allowance.overtimePay)
-        NormalEntry("Extra Hours Pay", allowance.extraHoursPay)
-        NormalEntry("Committee Bonus", allowance.committeeBonus)
-        NormalEntry("Competence Allowance", allowance.competenceAllowance)
-        NormalEntry("Effort Bonus", allowance.effortBonus)
-        NormalEntry("Warming Allowance", allowance.warmingAllowance)
-        NormalEntry("Rounding Adjustment", allowance.salaryRoundingAdjustment)
+        NormalEntry(stringResource(R.string.basic_allowance), allowance.basicAllowance)
+        NormalEntry(stringResource(R.string.family_compensation), allowance.familyCompensation)
+        NormalEntry(stringResource(R.string.management_bonus), allowance.managementBonus)
+        NormalEntry(stringResource(R.string.responsibility_allowance), allowance.responsibilityAllowance)
+        NormalEntry(stringResource(R.string.specialist_bonus), allowance.specialistBonus)
+        NormalEntry(stringResource(R.string.position_allowance), allowance.positionAllowance)
+        NormalEntry(stringResource(R.string.general_compensations), allowance.generalCompensations)
+        NormalEntry(stringResource(R.string.overtime_pay), allowance.overtimePay)
+        NormalEntry(stringResource(R.string.extra_hours_pay), allowance.extraHoursPay)
+        NormalEntry(stringResource(R.string.committee_bonus), allowance.committeeBonus)
+        NormalEntry(stringResource(R.string.competence_allowance), allowance.competenceAllowance)
+        NormalEntry(stringResource(R.string.effort_bonus), allowance.effortBonus)
+        NormalEntry(stringResource(R.string.warming_allowance), allowance.warmingAllowance)
+        NormalEntry(stringResource(R.string.rounding_adjustment), allowance.salaryRoundingAdjustment)
         HorizontalDivider()
-        ImportantEntry("Provided Total", allowance.allowanceProvidedTotal)
-        ImportantEntry("Expected Total", allowance.allowanceExpectedSum)
+        ImportantEntry(stringResource(R.string.provided_total), allowance.allowanceProvidedTotal)
+        ImportantEntry(stringResource(R.string.expected_total), allowance.allowanceExpectedSum)
     }
 }
 
@@ -134,23 +135,23 @@ fun SalaryDeductionCard(
     modifier: Modifier = Modifier,
 ) {
     SalaryContainer(
-        title = "Salary Deductions",
+        title = stringResource(R.string.salary_deductions),
         modifier = modifier,
     ) {
-        NormalEntry("Social Insurance", deduction.socialInsurance)
-        NormalEntry("Salary Insurance", deduction.salaryInsurance)
-        NormalEntry("Financial Commitments", deduction.financialCommitments)
-        NormalEntry("Income Tax", deduction.incomeTax)
-        NormalEntry("Engineer Association", deduction.engineerAssociation)
-        NormalEntry("Freedom Organization", deduction.freedomOrganization)
-        NormalEntry("Workers Union", deduction.workersUnion)
-        NormalEntry("Charity Box", deduction.charityBox)
-        NormalEntry("Agricultural Association", deduction.agriculturalAssociation)
-        NormalEntry("Ministry Fund", deduction.ministryFund)
-        NormalEntry("Solidarity Tax", deduction.solidarityTax)
+        NormalEntry(stringResource(R.string.social_insurance), deduction.socialInsurance)
+        NormalEntry(stringResource(R.string.salary_insurance), deduction.salaryInsurance)
+        NormalEntry(stringResource(R.string.financial_commitments), deduction.financialCommitments)
+        NormalEntry(stringResource(R.string.income_tax), deduction.incomeTax)
+        NormalEntry(stringResource(R.string.engineer_association), deduction.engineerAssociation)
+        NormalEntry(stringResource(R.string.freedom_organization), deduction.freedomOrganization)
+        NormalEntry(stringResource(R.string.workers_union), deduction.workersUnion)
+        NormalEntry(stringResource(R.string.charity_box), deduction.charityBox)
+        NormalEntry(stringResource(R.string.agricultural_association), deduction.agriculturalAssociation)
+        NormalEntry(stringResource(R.string.ministry_fund), deduction.ministryFund)
+        NormalEntry(stringResource(R.string.solidarity_tax), deduction.solidarityTax)
         HorizontalDivider()
-        ImportantEntry("Provided Total", deduction.deductionProvidedTotal, valueColor = MaterialTheme.colorScheme.error)
-        ImportantEntry("Expected Total", deduction.deductionExpectedSum, valueColor = MaterialTheme.colorScheme.error)
+        ImportantEntry(stringResource(R.string.provided_total), deduction.deductionProvidedTotal, valueColor = MaterialTheme.colorScheme.error)
+        ImportantEntry(stringResource(R.string.expected_total), deduction.deductionExpectedSum, valueColor = MaterialTheme.colorScheme.error)
     }
 }
 
@@ -160,12 +161,12 @@ fun NetSalaryCard(
     modifier: Modifier = Modifier,
 ) {
     SalaryContainer(
-        title = "Net Salary",
+        title = stringResource(R.string.net_salary),
         modifier = modifier,
     ) {
-        NormalEntry("Total", net.netProvidedTotal)
-        NormalEntry("Rounded Total", net.netProvidedRounded)
-        NormalEntry("Rounding Adjustment", net.netProvidedRounding)
+        NormalEntry(stringResource(R.string.total), net.netProvidedTotal)
+        NormalEntry(stringResource(R.string.rounded_total), net.netProvidedRounded)
+        NormalEntry(stringResource(R.string.rounding_adjustment), net.netProvidedRounding)
     }
 }
 

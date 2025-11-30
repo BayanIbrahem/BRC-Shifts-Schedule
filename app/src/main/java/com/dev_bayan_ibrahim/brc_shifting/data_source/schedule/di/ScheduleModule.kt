@@ -5,6 +5,7 @@ import com.dev_bayan_ibrahim.brc_shifting.data_source.schedule.ScheduleManager
 import com.dev_bayan_ibrahim.brc_shifting.data_source.schedule.cyclic.CompositeCyclicShiftScheduleManager
 import com.dev_bayan_ibrahim.brc_shifting.data_source.schedule.cyclic.CyclicShiftScheduleManager2
 import com.dev_bayan_ibrahim.brc_shifting.data_source.schedule.cyclic.CyclicShiftScheduleManager3
+import com.dev_bayan_ibrahim.brc_shifting.data_source.schedule.cyclic.CyclicShiftScheduleManager4
 import com.dev_bayan_ibrahim.brc_shifting.data_source.schedule.standard.StandardScheduleManager
 import com.dev_bayan_ibrahim.brc_shifting.util.Shift
 import dagger.Module
@@ -24,6 +25,7 @@ class ScheduleModule {
                 StandardScheduleManager,
                 CompositeCyclicShiftScheduleManager(
                     managers = setOf(
+                        CyclicShiftScheduleManager4,
                         CyclicShiftScheduleManager3,
                         CyclicShiftScheduleManager2
                     )

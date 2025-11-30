@@ -23,10 +23,8 @@ import com.dev_bayan_ibrahim.brc_shifting.domain.model.toBonuses
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.toDayOffs
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.toEmployee
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.toMonthDeduction
-import com.dev_bayan_ibrahim.brc_shifting.util.now
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import kotlinx.datetime.LocalDateTime
 import kotlinx.serialization.json.Json
 
 const val REMOTE_TAG = "REMOTE"
@@ -70,7 +68,7 @@ class RemoteDataSource(
      * @throws UnAccessibleDataException if the [monthNumber] and [year] are not valid variance in [EndPointMonthVariance]
      */
     suspend fun getSalary(employNumber: Int, monthNumber: Int, year: Int): Result<Salary> {
-        val variance = getMonthVarianceOrNull(monthNumber, year)
+        val variance = EndPointMonthVariance.getOrNull(monthNumber, year)
         return if (variance != null) {
             getSalary(
                 employNumber = employNumber,
@@ -99,39 +97,39 @@ class RemoteDataSource(
         it.toSalary(employNumber)
     }
 
+    suspend fun getDeductions(
+        employNumber: Int,
+        variance: EndPointMonthVariance,
+    ): Result<MonthDeductions> {
+        return DeductionEndpoint(
+            client = client,
+            uriDirector = director,
+            json = json,
+            variance = variance
+        ).postRequest(
+            bodyParams = listOf(
+                "user_id" bodyKeyOf employNumber.toString(),
+            )
+        ).mapCatching {
+            it.toMonthDeduction(employeeNumber = employNumber, monthVariance = variance)
+        }
+    }
+
     /**
      * @throws UnAccessibleDataException if the [monthNumber] and [year] are not valid variance in [EndPointMonthVariance]
      */
-    suspend fun getDeductions(employNumber: Int, monthNumber: Int, year: Int): Result<MonthDeductions> {
-        val variance = getMonthVarianceOrNull(monthNumber, year)
+    suspend fun getDeductions(
+        employNumber: Int,
+        monthNumber: Int,
+        year: Int,
+    ): Result<MonthDeductions> {
+        val variance = EndPointMonthVariance.getOrNull(monthNumber, year)
         return if (variance != null) {
-            DeductionEndpoint(
-                client = client,
-                uriDirector = director,
-                json = json,
-                variance = variance
-            ).postRequest(
-                bodyParams = listOf(
-                    "user_id" bodyKeyOf employNumber.toString(),
-                )
-            ).mapCatching {
-                it.toMonthDeduction(employeeNumber = employNumber, monthVariance = variance)
-            }
+            getDeductions(employNumber, variance)
         } else {
             Result.failure(UnAccessibleDataException("Invalid required date (month number: $monthNumber, year: $year"))
         }.also {
             Log.d(REMOTE_TAG, "deductions(num: $employNumber, month: $monthNumber, year: $year) => $it")
-        }
-    }
-
-    private fun getMonthVarianceOrNull(monthNumber: Int, year: Int): EndPointMonthVariance? {
-        val now = LocalDateTime.now().date
-        val requiredMonthIndex = year.times(12).plus(monthNumber)
-        val nowMonthIndex = now.year.times(12).plus(now.monthNumber)
-        return when (nowMonthIndex - requiredMonthIndex) {
-            0 -> EndPointMonthVariance.ThisMonth
-            1 -> EndPointMonthVariance.PreviousMonth
-            else -> null
         }
     }
 

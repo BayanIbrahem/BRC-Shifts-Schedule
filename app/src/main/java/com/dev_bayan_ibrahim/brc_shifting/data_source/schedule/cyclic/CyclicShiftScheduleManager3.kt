@@ -6,7 +6,7 @@ import kotlinx.datetime.LocalDate
 
 object CyclicShiftScheduleManager3 : CyclicShiftScheduleManager<CyclicShift3> {
     override val startDate: LocalDate = LocalDate.parse("2024-10-15")
-    override val lastValidDate: LocalDate = LocalDate.parse("2080-01-01")
+    override val lastValidDate: LocalDate = LocalDate.parse("2025-11-30")
     override val referenceDate: LocalDate = LocalDate.parse("2024-10-15")
     override val referencePoints: Map<WorkGroup.Cyclic, CyclicShift3> = WorkGroup.Cyclic.entries.associateWith {
         when (it) {

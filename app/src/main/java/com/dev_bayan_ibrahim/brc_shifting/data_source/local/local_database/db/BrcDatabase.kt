@@ -28,7 +28,8 @@ import com.dev_bayan_ibrahim.brc_shifting.util.WORK_GROUP_KEY_A
         EmployeeEntity::class,
         SalaryEntity::class,
     ],
-    version = 1,
+    version = 3,
+    exportSchema = false
 )
 @TypeConverters(
     BonusTypeConverter::class,

@@ -86,7 +86,8 @@ private fun RemoteSalary.toSalaryAllowance(employeeNumber: Int): EmployeeSalaryA
         effortBonus = data.additionalStrive.toInt(),
         warmingAllowance = data.warming.toInt(),
         salaryRoundingAdjustment = data.prevSalaryRoundingAmount.toInt(),
-        allowanceProvidedTotal = data.totalOne.toInt(),
+        /// total one is total allowance with the base salary
+        allowanceProvidedTotal = data.totalOne.toInt() - data.baseSalary.toInt(),
         monthNumber = data.year.toInt(),
         year = data.month.toInt(),
         id = null,

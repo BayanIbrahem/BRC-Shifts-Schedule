@@ -7,6 +7,7 @@ import kotlinx.datetime.LocalDate
 
 data class CompositeCyclicShiftScheduleManager(
     val managers: Set<CyclicShiftScheduleManager<out CyclicShift>> = setOf(
+        CyclicShiftScheduleManager4,
         CyclicShiftScheduleManager3,
         CyclicShiftScheduleManager2,
     ),
@@ -20,7 +21,7 @@ data class CompositeCyclicShiftScheduleManager(
         }?.getShift(
             group = group,
             date = date
-        ) ?: throw IllegalArgumentException("invalid date $date, can not find suitable scheduled manager to handle this date")
+        )
     }
 
     override fun supportGroup(group: WorkGroup): Boolean = group is WorkGroup.Cyclic

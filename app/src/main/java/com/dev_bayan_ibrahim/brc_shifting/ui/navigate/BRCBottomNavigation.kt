@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -80,6 +81,12 @@ private fun TopLevelIcon(
 
         BRCDestination.TopLevel.Enum.Schedule -> Icon(
             imageVector = Icons.Default.DateRange,
+            contentDescription = null,
+            modifier = modifier,
+        )
+
+        BRCDestination.TopLevel.Enum.About -> Icon(
+            imageVector = Icons.Default.Info,
             contentDescription = null,
             modifier = modifier,
         )

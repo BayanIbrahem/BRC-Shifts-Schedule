@@ -33,7 +33,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.dev_bayan_ibrahim.brc_shifting.R
+import com.dev_bayan_ibrahim.brc_shifting.domain.model.Deduction
 import com.dev_bayan_ibrahim.brc_shifting.domain.model.salary.EmployeeSalary
 import com.dev_bayan_ibrahim.brc_shifting.ui.screen.salary.action.SalariesLogicActions
 import com.dev_bayan_ibrahim.brc_shifting.ui.screen.salary.action.SalaryNavActions
@@ -50,6 +53,7 @@ import kotlinx.datetime.minus
 fun SalariesScreen(
     uiState: SalariesUiState,
     salaries: List<EmployeeSalary>,
+    deductions: Map<Int, List<Deduction>>,
     thisMonth: LocalDate?,
     logicActions: SalariesLogicActions,
     navActions: SalaryNavActions,
@@ -60,7 +64,7 @@ fun SalariesScreen(
             modifier = modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Text("Invalid Employee")
+            Text(stringResource(R.string.invalid_employee))
 
         }
     } else {
@@ -71,7 +75,7 @@ fun SalariesScreen(
             modifier = modifier,
             topBar = {
                 TopAppBar(
-                    title = { Text("Salaries - ${uiState.employee.name}") },
+                    title = { Text(stringResource(R.string.salaries_of_x, uiState.employee.name)) },
                     navigationIcon = {
                         IconButton(
                             onClick = {
@@ -136,7 +140,7 @@ fun SalariesScreen(
                                 },
                                 enabled = !uiState.thisMonthRequestLoading,
                             ) {
-                                Text("Fetch this month")
+                                Text(stringResource(R.string.fetch_this_month))
                             }
                             TextButton(
                                 onClick = {
@@ -144,7 +148,7 @@ fun SalariesScreen(
                                 },
                                 enabled = !uiState.prevMonthRequestLoading
                             ) {
-                                Text("Fetch prev month")
+                                Text(stringResource(R.string.fetch_prev_month))
                             }
                         }
                     }
@@ -192,17 +196,25 @@ fun SalariesScreen(
                     state = horizontalState,
                     pageSize = PageSize.Fill,
                     modifier = Modifier.padding(padding),
-                    pageSpacing = 12.dp
+                    pageSpacing = 12.dp,
+                    contentPadding = PaddingValues(12.dp)
                 ) {
                     val salary by remember(it) {
                         derivedStateOf {
                             salaries[it]
                         }
                     }
+                    val deductions by remember(deductions, it) {
+                        derivedStateOf {
+                            val key = salary.year * 12 + salary.monthNumber
+                            deductions[key] ?: emptyList()
+                        }
+                    }
                     DetailsSalaryCard(
                         modifier = Modifier.verticalScroll(rememberScrollState()),
                         employee = uiState.employee,
-                        salary = salary
+                        salary = salary,
+                        deductions = deductions,
                     )
                 }
             }

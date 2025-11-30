@@ -16,6 +16,7 @@ private val interchangeableCharGroups = listOf(
     "۶٦6", "۷٧7",
     "۸٨8", "۹9٩"
 )
+
 /**
  * Set of Arabic diacritics and marks that should be ignored during text matching
  */
@@ -46,7 +47,7 @@ fun String.arContains(query: String): Boolean {
  * @return The normalized version of the string
  */
 fun String.arNormalize(): String {
-    return trim().mapNotNull { char ->
+    return trim().lowercase().mapNotNull { char ->
         when {
             // Remove ignorable diacritics
             char in ignorableDiacritics -> null

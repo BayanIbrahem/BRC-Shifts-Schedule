@@ -1,5 +1,11 @@
 package com.dev_bayan_ibrahim.brc_shifting.data_source.local
 
+import androidx.room.withTransaction
+import com.dev_bayan_ibrahim.brc_shifting.data_source.local.local_database.dao.BonusDao
+import com.dev_bayan_ibrahim.brc_shifting.data_source.local.local_database.dao.DayOffDao
+import com.dev_bayan_ibrahim.brc_shifting.data_source.local.local_database.dao.DeductionDao
+import com.dev_bayan_ibrahim.brc_shifting.data_source.local.local_database.dao.EmployeeDao
+import com.dev_bayan_ibrahim.brc_shifting.data_source.local.local_database.dao.SalaryDao
 import com.dev_bayan_ibrahim.brc_shifting.data_source.local.local_database.db.BrcDatabase
 import com.dev_bayan_ibrahim.brc_shifting.data_source.local.local_database.entity.toBonus
 import com.dev_bayan_ibrahim.brc_shifting.data_source.local.local_database.entity.toDayOff
@@ -21,12 +27,16 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.datetime.Instant
 
-class LocalDataSource(db: BrcDatabase) {
+class LocalDataSource(private val db: BrcDatabase) {
+    suspend fun <R> withTransaction(body: suspend () -> R): R {
+        return db.withTransaction(body)
+    }
     private val bonusDao = db.getBonusDao()
     private val dayOffDao = db.getDayOffDao()
     private val deductionDao = db.getDeductionDao()
     private val employeeDao = db.getEmployeeDao()
     private val salaryDao = db.getSalaryDao()
+
     suspend fun insertBonus(bonus: Bonus): Result<Long> = Result.success(bonusDao.insertBonus(bonus.toEntity()))
 
     /**
@@ -142,6 +152,15 @@ class LocalDataSource(db: BrcDatabase) {
 
     suspend fun deleteDeductionByEmployeeNumber(employeeNumber: Int): Result<Unit> =
         Result.success(deductionDao.deleteDeductionByEmployeeNumber(employeeNumber))
+
+    suspend fun deleteDeductionYearAndMonthAndEmployeeNumber(employeeNumber: Int, year: Int, month: Int): Result<Unit> =
+        Result.success(
+            deductionDao.deleteDeductionsByYearAndOptionalMonthAndEmployeeNumber(
+                employeeNumber = employeeNumber,
+                year = year,
+                month = month
+            )
+        )
 
     fun getDeductionsByEmployeeNumber(employeeNumber: Int): Flow<Result<List<EmployeeDeduction>>> =
         deductionDao.getDeductionsByEmployeeNumber(employeeNumber).map { list ->
